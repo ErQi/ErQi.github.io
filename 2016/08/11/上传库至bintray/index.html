@@ -1,0 +1,685 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android Studio,jcenter," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一步一步的配置gradle来自动上传到Jcenter库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上传library到公共的jcenter仓库">
+<meta property="og:url" content="http://yoursite.com/2016/08/11/上传库至bintray/index.html">
+<meta property="og:site_name" content="ErQi">
+<meta property="og:description" content="一步一步的配置gradle来自动上传到Jcenter库">
+<meta property="og:updated_time" content="2016-08-09T04:02:32.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="上传library到公共的jcenter仓库">
+<meta name="twitter:description" content="一步一步的配置gradle来自动上传到Jcenter库">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <title> 上传library到公共的jcenter仓库 | ErQi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ErQi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                上传library到公共的jcenter仓库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-11T09:47:22+08:00" content="2016-08-11">
+              2016-08-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一步一步的配置gradle来自动上传到Jcenter库<br><a id="more"></a></p>
+<h3 id="账户配置"><a href="#账户配置" class="headerlink" title="账户配置"></a>账户配置</h3><p>首选需要拥有一个<a href="https://bintray.com/" title="bintray" target="_blank" rel="external">bintray</a>的账号,还有与之对应的API key 可以直接使用github账号登陆.<br>登陆完成之后<a href="https://bintray.com/profile/edit" target="_blank" rel="external">编辑</a>页面下方列表中找到API key点击,得到自己的API key,保存下来就可以继续下一步.</p>
+<p>在引用项目的时候,通常都是如下结构<code>compile &#39;com.android.support:appcompat-v7:23.2.0&#39;</code><br>结构分为三块,中间用<code>:</code>来进行隔开,示例:<code>group:name:version</code></p>
+<h3 id="项目根部路配置"><a href="#项目根部路配置" class="headerlink" title="项目根部路配置"></a>项目根部路配置</h3><p>回到项目中来,首先需要在根目录的build.gradle加入如下配置.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ext &#123;</div><div class="line">    groupName = &apos;对应group&apos;</div><div class="line">    artifactName = &apos;对应name&apos;</div><div class="line">    artifactDescription = &apos;项目的详细描述&apos;</div><div class="line">    artifactLabels = [&apos;该项目的描述标签&apos;,&apos;可以多个&apos;]</div><div class="line">    releaseVersionCode = 1 			// 当前的版本</div><div class="line">    releaseVersionName = &apos;1.0.0&apos;	// 当前的版本名称</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后在加入两个帮助发布项目的插件,加载哪就不多说了,详细信息可以看项目<a href="https://github.com/ErQi/ExpandTextView" target="_blank" rel="external">github</a>,maven 1.3插件需要gradle 2.4+支持,需要注意<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">classpath &apos;com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6&apos;</div><div class="line">classpath &apos;com.github.dcendents:android-maven-gradle-plugin:1.3&apos;</div></pre></td></tr></table></figure></p>
+<h4 id="上传的Module配置"><a href="#上传的Module配置" class="headerlink" title="上传的Module配置"></a>上传的Module配置</h4><p>然后去到需要上传的module中,开始在该module的build.gradle进行配置</p>
+<ol>
+<li><h4 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 在根节点上添加</div><div class="line">apply plugin: &apos;com.github.dcendents.android-maven&apos;</div><div class="line">apply plugin: &apos;com.jfrog.bintray&apos;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="定义相关网站"><a href="#定义相关网站" class="headerlink" title="定义相关网站"></a>定义相关网站</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 这里就是直接引用根目录下的相关配置</div><div class="line">def siteUrl = &quot;https://github.com/ErQi/$&#123;rootProject.ext.artifactName&#125;&quot;</div><div class="line">def gitUrl = &quot;https://github.com/ErQi/$&#123;rootProject.ext.artifactName&#125;.git&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="定义pom并打包aar"><a href="#定义pom并打包aar" class="headerlink" title="定义pom并打包aar"></a>定义pom并打包aar</h4><p>上传到jcenter至少需要四个文件，除了打包的aar之外，还需要pom和javadoc，source，否则是通不过jcenter审核的。不过不用紧张，这些我们都可以用脚本生成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">// 根节点添加</div><div class="line">install &#123;</div><div class="line">    repositories.mavenInstaller &#123;</div><div class="line">        // This generates POM.xml with proper parameters</div><div class="line">        pom &#123;</div><div class="line">            project &#123;</div><div class="line">                packaging &apos;aar&apos;</div><div class="line">                // Add your description here</div><div class="line">                name rootProject.ext.artifactName</div><div class="line">                url siteUrl</div><div class="line">                // Set your license</div><div class="line">                licenses &#123; </div><div class="line">                    license &#123;</div><div class="line">                        name &apos;The MIT License (MIT)&apos;</div><div class="line">                        url &apos;http://opensource.org/licenses/MIT&apos;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                developers &#123;</div><div class="line">                    developer &#123;</div><div class="line">                        id &apos;ErQi&apos;</div><div class="line">                        name &apos;ErQi&apos;</div><div class="line">                        email &apos;shengguangchanhui@foxmail.com&apos;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                scm &#123;</div><div class="line">                    connection gitUrl</div><div class="line">                    developerConnection gitUrl</div><div class="line">                    url siteUrl</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="打包javadocjar和sourcejar"><a href="#打包javadocjar和sourcejar" class="headerlink" title="打包javadocjar和sourcejar"></a>打包javadocjar和sourcejar</h4><p>这是上传到jcenter必须的. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">// 根节点下</div><div class="line">task sourcesJar(type: Jar) &#123;</div><div class="line">    from android.sourceSets.main.java.srcDirs</div><div class="line">    classifier = &apos;sources&apos;</div><div class="line">&#125;</div><div class="line">task javadoc(type: Javadoc) &#123;</div><div class="line">    source = android.sourceSets.main.java.srcDirs</div><div class="line">    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))</div><div class="line">    options.encoding = &apos;UTF-8&apos;</div><div class="line">&#125;</div><div class="line">task javadocJar(type: Jar, dependsOn: javadoc) &#123;</div><div class="line">    classifier = &apos;javadoc&apos;</div><div class="line">    from javadoc.destinationDir</div><div class="line">&#125;</div><div class="line">artifacts &#123;</div><div class="line">    archives javadocJar</div><div class="line">    archives sourcesJar</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="配置Jcenter相关信息"><a href="#配置Jcenter相关信息" class="headerlink" title="配置Jcenter相关信息"></a>配置Jcenter相关信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">Properties properties = new Properties()</div><div class="line">File propertyFile = project.rootProject.file(&apos;local.properties&apos;) // 这里将Jcenter的用户信息保存在local.properties文件中</div><div class="line">properties.load(propertyFile.newDataInputStream())</div><div class="line">bintray &#123;</div><div class="line">    user = properties.getProperty(&quot;bintray.user&quot;) //你的Jcenter账户</div><div class="line">    key = properties.getProperty(&quot;bintray.apikey&quot;) //你的Jcenter账户的API key</div><div class="line">    configurations = [&apos;archives&apos;] //When uploading Maven-based publication files</div><div class="line">    dryRun = false //Whether to run this as dry-run, without deploying</div><div class="line">    publish = true //If version should be auto published after an upload</div><div class="line">    pkg &#123;</div><div class="line">        repo= &apos;maven&apos; //发布到那个仓库</div><div class="line">        name = rootProject.ext.artifactName // 库的名称</div><div class="line">        desc = rootProject.ext.artifactDescription // 描述</div><div class="line">        websiteUrl = siteUrl // 项目网址, 通常指向github链接 </div><div class="line">        issueTrackerUrl = siteUrl + &apos;/issues&apos; // 同上</div><div class="line">        vcsUrl = gitUrl	// 同上</div><div class="line">        licenses = [&apos;MIT&apos;]</div><div class="line">        labels = rootProject.ext.artifactLabels </div><div class="line">        publicDownloadNumbers = true</div><div class="line">        //Optional version descriptor</div><div class="line">        version &#123;</div><div class="line">            name = rootProject.ext.releaseVersionName //Bintray logical version name</div><div class="line">            released = new SimpleDateFormat(&apos;yyyy-MM-dd\&apos;T\&apos;HH:mm:ss.SSSZZ&apos;).format(new Date())</div><div class="line">            //2 possible values: date in the format of &apos;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSSZZ&apos; OR a java.util.Date instance</div><div class="line">            vcsTag = rootProject.ext.releaseVersionName</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="运行上传指令"><a href="#运行上传指令" class="headerlink" title="运行上传指令"></a>运行上传指令</h4><p>当以上配置完成时,就可以运行gradle指令了<br>当两个任务都OK时,就可以登录自己的账户去提交审核了<br>在bintray的个人主页可以在右下角看到最近提交的记录,点击项目名称,即可进入到项目界面.<br>然后在主页的右下方找到Add to JCenter,然后在暂开网页中随便填一点描述信息,即可提交审核,当审核完成就可以使用了简单的一行直接导入了.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gradle install</div><div class="line">gradle bintrayUpload</div></pre></td></tr></table></figure>
+</li>
+<li><h4 id="可能出现的坑"><a href="#可能出现的坑" class="headerlink" title="可能出现的坑"></a>可能出现的坑</h4><p>第一个指令用于生成pom.jar包,生成时会检测对应的方法注释,请确保注释完成无误.<br>第二个指令用于上传到指定的Jcenter账户,请确认账户的信息是否输入完成,例如该项目的<code>user</code>,<code>apikey</code>,可将此信息放置于其他文件中,此处保存在了<code>local.properties</code>文件中,上传时若出现user apikey等错误信息,请确认账户信息是否有误.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Properties properties = new Properties()</div><div class="line">File propertyFile = project.rootProject.file(&apos;local.properties&apos;) // 这里将Jcenter的用户信息保存在local.properties文件中</div><div class="line">properties.load(propertyFile.newDataInputStream())</div><div class="line">bintray &#123;</div><div class="line">    user = properties.getProperty(&quot;bintray.user&quot;) //你的Jcenter账户</div><div class="line">    key = properties.getProperty(&quot;bintray.apikey&quot;) //你的Jcenter账户的API key</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="ErQi WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="ErQi Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-Studio/" rel="tag">#Android Studio</a>
+          
+            <a href="/tags/jcenter/" rel="tag">#jcenter</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/11/RxBus解析/" rel="next" title="RxBus解析">
+                <i class="fa fa-chevron-left"></i> RxBus解析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/11/使用Android Studio方便的阅读源码/" rel="prev" title="使用Android Studio方便的阅读Android源码">
+                使用Android Studio方便的阅读Android源码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="ErQi" />
+          <p class="site-author-name" itemprop="name">ErQi</p>
+          <p class="site-description motion-element" itemprop="description">一个有强迫症兼五月病,导致无药可救的家伙..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ErQi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#账户配置"><span class="nav-number">1.</span> <span class="nav-text">账户配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目根部路配置"><span class="nav-number">2.</span> <span class="nav-text">项目根部路配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#上传的Module配置"><span class="nav-number">2.1.</span> <span class="nav-text">上传的Module配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加插件"><span class="nav-number">2.2.</span> <span class="nav-text">添加插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义相关网站"><span class="nav-number">2.3.</span> <span class="nav-text">定义相关网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义pom并打包aar"><span class="nav-number">2.4.</span> <span class="nav-text">定义pom并打包aar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包javadocjar和sourcejar"><span class="nav-number">2.5.</span> <span class="nav-text">打包javadocjar和sourcejar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Jcenter相关信息"><span class="nav-number">2.6.</span> <span class="nav-text">配置Jcenter相关信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行上传指令"><span class="nav-number">2.7.</span> <span class="nav-text">运行上传指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可能出现的坑"><span class="nav-number">2.8.</span> <span class="nav-text">可能出现的坑</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ErQi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

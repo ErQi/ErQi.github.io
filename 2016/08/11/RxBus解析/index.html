@@ -1,0 +1,668 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Rxjava," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="RxBus的整体实现的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxBus解析">
+<meta property="og:url" content="http://yoursite.com/2016/08/11/RxBus解析/index.html">
+<meta property="og:site_name" content="ErQi">
+<meta property="og:description" content="RxBus的整体实现的分析">
+<meta property="og:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
+<meta property="og:updated_time" content="2016-08-10T07:05:36.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxBus解析">
+<meta name="twitter:description" content="RxBus的整体实现的分析">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <title> RxBus解析 | ErQi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ErQi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RxBus解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-11T09:47:22+08:00" content="2016-08-11">
+              2016-08-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开源库分析/" itemprop="url" rel="index">
+                    <span itemprop="name">开源库分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>RxBus的整体实现的分析<br><a id="more"></a></p>
+<h1 id="RxBus的简单流程图"><a href="#RxBus的简单流程图" class="headerlink" title="RxBus的简单流程图"></a>RxBus的简单流程图</h1><p><img src="../../../../images/RxBus流程图.png" alt="源码下载"></p>
+<h1 id="类的简单分析"><a href="#类的简单分析" class="headerlink" title="类的简单分析"></a>类的简单分析</h1><h2 id="Produce-和-Subscribe"><a href="#Produce-和-Subscribe" class="headerlink" title="Produce 和 Subscribe"></a>Produce 和 Subscribe</h2><p>生产者和消费者的注解.两者除了名称不一样,使用方式都是一样.<br>有两个参数,<br>String[] 类型的 tag,用于对事件的类型进行标记<br>EventThread 类型的 thread,内部封装了Scheduler调度器,用于进行线程切换.<br>两者之前不同的是<code>Subscribe</code>作为一个订阅者,方法需要一个事件的参数.<br>而<code>Produce</code>作为生产者,需要返回一个类型作为事件参数</p>
+<h2 id="EventType"><a href="#EventType" class="headerlink" title="EventType"></a>EventType</h2><p>RxBus的核心类,决定了事件类型,生产者订阅者都以此为媒介来进行数据分发.<br>有两个关键参数<br>String 的 tag 即生产者和订阅者在定义时的标记<br>Class&lt;?&gt; 的 clazz 事件的参数类型,也就是生产者的返回类型,即订阅者的接收类型<br>此类重写了<code>hashCode</code>和<code>equals</code>方法,来确保事件的唯一性.</p>
+<h2 id="ProducerEvent-和-SubscriberEvent"><a href="#ProducerEvent-和-SubscriberEvent" class="headerlink" title="ProducerEvent 和 SubscriberEvent"></a>ProducerEvent 和 SubscriberEvent</h2><p>同EventTy一样,同样重写了<code>hashCode</code>和<code>equals</code>方法,来确保唯一性.<br>两类主要参数相同.主要为三个参数.用于在register时通过反射拿到生产者或订阅者的信息,并储存到对应的对象中去,并且与<code>EventType</code>以键值对的形式进行保存.<br>Object 的 target 用于标示注册的对象.<br>Method 的 method 生产的方法,或订阅的方法<br>EventThread 的 thread 调用时的线程类型.<br>通过这三者信息,当Bus发送消息时通过EventType找到对应的值,就能通过反射调用其中的订阅方法,并将数据传递过去</p>
+<h2 id="RxBus"><a href="#RxBus" class="headerlink" title="RxBus"></a>RxBus</h2><p>一个简单的工具类,提供了获取Bus的单例对象的方法.</p>
+<h2 id="Bus"><a href="#Bus" class="headerlink" title="Bus"></a>Bus</h2><p>核心的类,在该类中进行注册,取消注册,发布等等操作.<br>该类的构造函数并未私有,在创建其对象时需要注意其<code>ThreadEnforcer</code><br>该对象有两个默认实现对象,限定了register和post等操作的线程.</p>
+<h2 id="Finder"><a href="#Finder" class="headerlink" title="Finder"></a>Finder</h2><p>抽象接口,两个抽象方法,用于查找<code>Producers</code>和<code>Subscribers</code>对象.<br>其默认内部实现类<strong>Finder.ANNOTATED</strong><br>该类的实现很有意思,一般接口都是抽象让其他对象去集成,而这内部的实现类只是调用了<strong>AnnotatedFinder</strong>类的方法而已,<strong>AnnotatedFinder</strong>并没有实现<strong>Finder</strong>的接口.</p>
+<h2 id="AnnotatedFinder"><a href="#AnnotatedFinder" class="headerlink" title="AnnotatedFinder"></a>AnnotatedFinder</h2><p>该类是一个final类,通过静态方法实现了对Finder接口的查找对象的返回.<br>在register时,会调用该类,对注册对象进行反射解析,找到其生产者和订阅者,并以对象类型为Key以其找到的两个对象为value作为缓存储存在两个map集合中,防止无意义的重复注册</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="ErQi WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="ErQi Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rxjava/" rel="tag">#Rxjava</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/11/FlexboxLayout初探/" rel="next" title="FlexboxLayout初探">
+                <i class="fa fa-chevron-left"></i> FlexboxLayout初探
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/11/上传库至bintray/" rel="prev" title="上传library到公共的jcenter仓库">
+                上传library到公共的jcenter仓库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="ErQi" />
+          <p class="site-author-name" itemprop="name">ErQi</p>
+          <p class="site-description motion-element" itemprop="description">一个有强迫症兼五月病,导致无药可救的家伙..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ErQi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RxBus的简单流程图"><span class="nav-number">1.</span> <span class="nav-text">RxBus的简单流程图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类的简单分析"><span class="nav-number">2.</span> <span class="nav-text">类的简单分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Produce-和-Subscribe"><span class="nav-number">2.1.</span> <span class="nav-text">Produce 和 Subscribe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventType"><span class="nav-number">2.2.</span> <span class="nav-text">EventType</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProducerEvent-和-SubscriberEvent"><span class="nav-number">2.3.</span> <span class="nav-text">ProducerEvent 和 SubscriberEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxBus"><span class="nav-number">2.4.</span> <span class="nav-text">RxBus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bus"><span class="nav-number">2.5.</span> <span class="nav-text">Bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finder"><span class="nav-number">2.6.</span> <span class="nav-text">Finder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AnnotatedFinder"><span class="nav-number">2.7.</span> <span class="nav-text">AnnotatedFinder</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ErQi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
