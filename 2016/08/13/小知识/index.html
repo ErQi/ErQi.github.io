@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="补智商," />
+  <meta name="keywords" content="知识点," />
 
 
 
@@ -84,18 +84,16 @@
 
 
 
-<meta name="description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
+<meta name="description" content="各种平时碰到的零散知识点">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView互相关联滚动">
-<meta property="og:url" content="http://yoursite.com/2016/08/11/多RecyclerView间关联滚动/index.html">
+<meta property="og:title" content="各种小知识">
+<meta property="og:url" content="http://yoursite.com/2016/08/13/小知识/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
-<meta property="og:image" content="http://yoursite.com/../../../../images/课程表.gif">
-<meta property="og:updated_time" content="2016-05-21T10:39:23.887Z">
+<meta property="og:description" content="各种平时碰到的零散知识点">
+<meta property="og:updated_time" content="2016-08-13T06:35:34.733Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RecyclerView互相关联滚动">
-<meta name="twitter:description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
-<meta name="twitter:image" content="http://yoursite.com/../../../../images/课程表.gif">
+<meta name="twitter:title" content="各种小知识">
+<meta name="twitter:description" content="各种平时碰到的零散知识点">
 
 
 
@@ -116,7 +114,7 @@
 
 
 
-  <title> RecyclerView互相关联滚动 | ErQi </title>
+  <title> 各种小知识 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +254,7 @@
             
             
               
-                RecyclerView互相关联滚动
+                各种小知识
               
             
           </h1>
@@ -268,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-11T09:47:22+08:00" content="2016-08-11">
-              2016-08-11
+            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
+              2016-08-13
             </time>
           </span>
 
@@ -282,8 +280,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/智商堪忧/" itemprop="url" rel="index">
-                    <span itemprop="name">智商堪忧</span>
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
                   </a>
                 </span>
 
@@ -315,29 +313,13 @@
       
 
       
-        <p>曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!<br><a id="more"></a><br>有时会碰到布局里两三个列表数据相互关联,需要互相关联滚动(<code>具体实现处理方式不同,实现方式也就不同</code>).<br>例如课程表,将课程表上方的周几看做一个列表,下方的每天的对应数据看做一个列表,自然要求上下列表跟随滚动,如下图<br><img src="../../../../images/课程表.gif" alt="课程表示例"><br>上方的日期和下面的时间就是两个单独的列表.<br>单RecyclerView的监听很简单,直接在<code>OnScrollListener</code>回调方法里面调用另一个RecyclerView的<code>scrollBy</code>方法即可.<br>多RecyclerView直接调用就不行了,因为RecyclerView的<code>scrollBy</code>方法会触发<code>OnScrollListener</code>的回调,这样就陷入了相互回调地狱.<br>解决示例:</p>
-<pre><code>mView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        mScroll1 = true;
-        if (!mScroll2) {
-            mView1.scrollBy(dx, dy);
-        }
-        mScroll1 = false;
-    }
-});
+        <p>各种平时碰到的零散知识点<br><a id="more"></a></p>
+<ol>
+<li><strong>Method.isBride()</strong><br>该方法用于判断是否是桥接方法,诞生于1.5,作用判断此方法是否为桥接方法.<br>桥接方法:因为1.5引入了泛型,在声明的时候可以声明泛型,等到使用时在去指定,但是编辑器不能等到你使用再去编辑,所以有了桥接方法这个概念<br>代码示例:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">abstract class A&lt;T&gt; &#123;  </div><div class="line">    abstract T get(T t);  </div><div class="line">&#125;</div><div class="line">// 编辑器对应代码</div><div class="line">abstract class A &#123;  </div><div class="line">    abstract Object get(Object obj);  </div><div class="line">&#125;</div><div class="line">// 实现的具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125; </div><div class="line">// 编辑器的实现具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    //编译器添加的方法  </div><div class="line">    Object get(Object s) &#123;  </div><div class="line">        return (Object) get((String) s);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中第一个Object get(Objcet s)就是桥接方法了.</p>
 
-mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        mScroll2 = true;
-        if (!mScroll1) {
-            mView2.scrollBy(dx, dy);
-        }
-        mScroll2 = false;
-    }
-});
-</code></pre><h4 id="当初都没想到…可见我曾经智力多低"><a href="#当初都没想到…可见我曾经智力多低" class="headerlink" title="当初都没想到…可见我曾经智力多低"></a>当初都没想到…可见我曾经智力多低</h4>
       
     </div>
 
@@ -380,7 +362,7 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
       
         <div class="post-tags">
           
-            <a href="/tags/补智商/" rel="tag">#补智商</a>
+            <a href="/tags/知识点/" rel="tag">#知识点</a>
           
         </div>
       
@@ -389,16 +371,16 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/11/使用Android Studio方便的阅读源码/" rel="next" title="使用Android Studio方便的阅读Android源码">
-                <i class="fa fa-chevron-left"></i> 使用Android Studio方便的阅读Android源码
+              <a href="/2016/08/13/多RecyclerView间关联滚动/" rel="next" title="RecyclerView互相关联滚动">
+                <i class="fa fa-chevron-left"></i> RecyclerView互相关联滚动
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/11/小知识/" rel="prev" title="各种小知识">
-                各种小知识 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/08/18/Multitype解析/" rel="prev" title="MultiType解析">
+                MultiType解析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,7 +472,7 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -547,7 +529,7 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#当初都没想到…可见我曾经智力多低"><span class="nav-number">1.</span> <span class="nav-text">当初都没想到…可见我曾经智力多低</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>

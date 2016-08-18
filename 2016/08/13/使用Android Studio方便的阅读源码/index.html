@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Rxjava," />
+  <meta name="keywords" content="Android Studio,源码," />
 
 
 
@@ -84,18 +84,21 @@
 
 
 
-<meta name="description" content="RxBus的整体实现的分析">
+<meta name="description" content="小伙伴再也不用纠结如何查看源码了~">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RxBus解析">
-<meta property="og:url" content="http://yoursite.com/2016/08/11/RxBus解析/index.html">
+<meta property="og:title" content="使用Android Studio方便的阅读Android源码">
+<meta property="og:url" content="http://yoursite.com/2016/08/13/使用Android Studio方便的阅读源码/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="RxBus的整体实现的分析">
-<meta property="og:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
-<meta property="og:updated_time" content="2016-08-10T07:05:36.905Z">
+<meta property="og:description" content="小伙伴再也不用纠结如何查看源码了~">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/未编译.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/配置源码.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/编译完成.png">
+<meta property="og:updated_time" content="2016-08-13T06:35:34.730Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RxBus解析">
-<meta name="twitter:description" content="RxBus的整体实现的分析">
-<meta name="twitter:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
+<meta name="twitter:title" content="使用Android Studio方便的阅读Android源码">
+<meta name="twitter:description" content="小伙伴再也不用纠结如何查看源码了~">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
 
 
 
@@ -116,7 +119,7 @@
 
 
 
-  <title> RxBus解析 | ErQi </title>
+  <title> 使用Android Studio方便的阅读Android源码 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +259,7 @@
             
             
               
-                RxBus解析
+                使用Android Studio方便的阅读Android源码
               
             
           </h1>
@@ -268,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-11T09:47:22+08:00" content="2016-08-11">
-              2016-08-11
+            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
+              2016-08-13
             </time>
           </span>
 
@@ -282,8 +285,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/开源库分析/" itemprop="url" rel="index">
-                    <span itemprop="name">开源库分析</span>
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
                   </a>
                 </span>
 
@@ -315,15 +318,17 @@
       
 
       
-        <p>RxBus的整体实现的分析<br><a id="more"></a></p>
-<h1 id="RxBus的简单流程图"><a href="#RxBus的简单流程图" class="headerlink" title="RxBus的简单流程图"></a>RxBus的简单流程图</h1><p><img src="../../../../images/RxBus流程图.png" alt="源码下载"></p>
-<h1 id="类的简单分析"><a href="#类的简单分析" class="headerlink" title="类的简单分析"></a>类的简单分析</h1><h2 id="Produce-和-Subscribe"><a href="#Produce-和-Subscribe" class="headerlink" title="Produce 和 Subscribe"></a>Produce 和 Subscribe</h2><p>生产者和消费者的注解.两者除了名称不一样,使用方式都是一样.<br>有两个参数,<br>String[] 类型的 tag,用于对事件的类型进行标记<br>EventThread 类型的 thread,内部封装了Scheduler调度器,用于进行线程切换.<br>两者之前不同的是<code>Subscribe</code>作为一个订阅者,方法需要一个事件的参数.<br>而<code>Produce</code>作为生产者,需要返回一个类型作为事件参数</p>
-<h2 id="EventType"><a href="#EventType" class="headerlink" title="EventType"></a>EventType</h2><p>RxBus的核心类,决定了事件类型,生产者订阅者都以此为媒介来进行数据分发.<br>有两个关键参数<br>String 的 tag 即生产者和订阅者在定义时的标记<br>Class&lt;?&gt; 的 clazz 事件的参数类型,也就是生产者的返回类型,即订阅者的接收类型<br>此类重写了<code>hashCode</code>和<code>equals</code>方法,来确保事件的唯一性.</p>
-<h2 id="ProducerEvent-和-SubscriberEvent"><a href="#ProducerEvent-和-SubscriberEvent" class="headerlink" title="ProducerEvent 和 SubscriberEvent"></a>ProducerEvent 和 SubscriberEvent</h2><p>同EventTy一样,同样重写了<code>hashCode</code>和<code>equals</code>方法,来确保唯一性.<br>两类主要参数相同.主要为三个参数.用于在register时通过反射拿到生产者或订阅者的信息,并储存到对应的对象中去,并且与<code>EventType</code>以键值对的形式进行保存.<br>Object 的 target 用于标示注册的对象.<br>Method 的 method 生产的方法,或订阅的方法<br>EventThread 的 thread 调用时的线程类型.<br>通过这三者信息,当Bus发送消息时通过EventType找到对应的值,就能通过反射调用其中的订阅方法,并将数据传递过去</p>
-<h2 id="RxBus"><a href="#RxBus" class="headerlink" title="RxBus"></a>RxBus</h2><p>一个简单的工具类,提供了获取Bus的单例对象的方法.</p>
-<h2 id="Bus"><a href="#Bus" class="headerlink" title="Bus"></a>Bus</h2><p>核心的类,在该类中进行注册,取消注册,发布等等操作.<br>该类的构造函数并未私有,在创建其对象时需要注意其<code>ThreadEnforcer</code><br>该对象有两个默认实现对象,限定了register和post等操作的线程.</p>
-<h2 id="Finder"><a href="#Finder" class="headerlink" title="Finder"></a>Finder</h2><p>抽象接口,两个抽象方法,用于查找<code>Producers</code>和<code>Subscribers</code>对象.<br>其默认内部实现类<strong>Finder.ANNOTATED</strong><br>该类的实现很有意思,一般接口都是抽象让其他对象去集成,而这内部的实现类只是调用了<strong>AnnotatedFinder</strong>类的方法而已,<strong>AnnotatedFinder</strong>并没有实现<strong>Finder</strong>的接口.</p>
-<h2 id="AnnotatedFinder"><a href="#AnnotatedFinder" class="headerlink" title="AnnotatedFinder"></a>AnnotatedFinder</h2><p>该类是一个final类,通过静态方法实现了对Finder接口的查找对象的返回.<br>在register时,会调用该类,对注册对象进行反射解析,找到其生产者和订阅者,并以对象类型为Key以其找到的两个对象为value作为缓存储存在两个map集合中,防止无意义的重复注册</p>
+        <p>小伙伴再也不用纠结如何查看源码了~<br><a id="more"></a></p>
+<ul>
+<li>准备工作<ol>
+<li>工具 <strong>Android Studio</strong><br>自行翻墙至<a href="https://developer.android.com/intl/zh-cn/sdk/index.html" target="_blank" rel="external">官网下载</a>,或者<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">androiddevtools</a>,安装过程就不在复述了,网上教程大把.</li>
+<li>源码<br>源码直接使用SDK Manager打开下载即可示例图.<br><img src="../../../../images/阅读源码/sdk下载.png" alt="源码下载"><br>下载完成之后再SDK目录下sources文件夹里即可找到对应的源码.</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>导入阅读<br>  直接将源码根目录作为项目导入,这时由于没有相关配置文件,导入的源码并不能被编译,都是作为普通的文件存在,自然语法高亮,跳转等方便的操作均无法实现.<br>  <img src="../../../../images/阅读源码/未编译.png" alt="未编译"><br>  这时候需要到项目视图窗口,切换到项目视图,然后右键-&gt;F4 打开项目设置,修改属性为sources,然后应用,<br>  <img src="../../../../images/阅读源码/配置源码.png" alt="配置"><br>  这时候就可以愉快的查看源码了.<br>  <img src="../../../../images/阅读源码/编译完成.png" alt="编译完成"></li>
+</ul>
 
       
     </div>
@@ -367,7 +372,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Rxjava/" rel="tag">#Rxjava</a>
+            <a href="/tags/Android-Studio/" rel="tag">#Android Studio</a>
+          
+            <a href="/tags/源码/" rel="tag">#源码</a>
           
         </div>
       
@@ -376,15 +383,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/11/FlexboxLayout初探/" rel="next" title="FlexboxLayout初探">
-                <i class="fa fa-chevron-left"></i> FlexboxLayout初探
+              <a href="/2016/08/13/RxBus解析/" rel="next" title="RxBus解析">
+                <i class="fa fa-chevron-left"></i> RxBus解析
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/11/上传库至bintray/" rel="prev" title="上传library到公共的jcenter仓库">
+              <a href="/2016/08/13/上传库至bintray/" rel="prev" title="上传library到公共的jcenter仓库">
                 上传library到公共的jcenter仓库 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -477,7 +484,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -534,7 +541,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RxBus的简单流程图"><span class="nav-number">1.</span> <span class="nav-text">RxBus的简单流程图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类的简单分析"><span class="nav-number">2.</span> <span class="nav-text">类的简单分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Produce-和-Subscribe"><span class="nav-number">2.1.</span> <span class="nav-text">Produce 和 Subscribe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventType"><span class="nav-number">2.2.</span> <span class="nav-text">EventType</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProducerEvent-和-SubscriberEvent"><span class="nav-number">2.3.</span> <span class="nav-text">ProducerEvent 和 SubscriberEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxBus"><span class="nav-number">2.4.</span> <span class="nav-text">RxBus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bus"><span class="nav-number">2.5.</span> <span class="nav-text">Bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finder"><span class="nav-number">2.6.</span> <span class="nav-text">Finder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AnnotatedFinder"><span class="nav-number">2.7.</span> <span class="nav-text">AnnotatedFinder</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>

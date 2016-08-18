@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Rxjava," />
 
 
 
@@ -84,15 +84,18 @@
 
 
 
-<meta name="description" content="一个有强迫症兼五月病,导致无药可救的家伙..">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ErQi">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta name="description" content="RxBus的整体实现的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxBus解析">
+<meta property="og:url" content="http://yoursite.com/2016/08/13/RxBus解析/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="一个有强迫症兼五月病,导致无药可救的家伙..">
+<meta property="og:description" content="RxBus的整体实现的分析">
+<meta property="og:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
+<meta property="og:updated_time" content="2016-08-13T06:35:34.725Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ErQi">
-<meta name="twitter:description" content="一个有强迫症兼五月病,导致无药可救的家伙..">
+<meta name="twitter:title" content="RxBus解析">
+<meta name="twitter:description" content="RxBus的整体实现的分析">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/RxBus流程图.png">
 
 
 
@@ -113,7 +116,7 @@
 
 
 
-  <title> ErQi </title>
+  <title> RxBus解析 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -134,9 +137,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,9 +234,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -255,10 +256,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/13/RxBus解析/" itemprop="url">
-                  RxBus解析
-                </a>
+                RxBus解析
               
             
           </h1>
@@ -317,276 +315,117 @@
       
 
       
-        
-          <p>RxBus的整体实现的分析<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/13/RxBus解析/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+        <p>RxBus的整体实现的分析<br><a id="more"></a></p>
+<h1 id="RxBus的简单流程图"><a href="#RxBus的简单流程图" class="headerlink" title="RxBus的简单流程图"></a>RxBus的简单流程图</h1><p><img src="../../../../images/RxBus流程图.png" alt="源码下载"></p>
+<h1 id="类的简单分析"><a href="#类的简单分析" class="headerlink" title="类的简单分析"></a>类的简单分析</h1><h2 id="Produce-和-Subscribe"><a href="#Produce-和-Subscribe" class="headerlink" title="Produce 和 Subscribe"></a>Produce 和 Subscribe</h2><p>生产者和消费者的注解.两者除了名称不一样,使用方式都是一样.<br>有两个参数,<br>String[] 类型的 tag,用于对事件的类型进行标记<br>EventThread 类型的 thread,内部封装了Scheduler调度器,用于进行线程切换.<br>两者之前不同的是<code>Subscribe</code>作为一个订阅者,方法需要一个事件的参数.<br>而<code>Produce</code>作为生产者,需要返回一个类型作为事件参数</p>
+<h2 id="EventType"><a href="#EventType" class="headerlink" title="EventType"></a>EventType</h2><p>RxBus的核心类,决定了事件类型,生产者订阅者都以此为媒介来进行数据分发.<br>有两个关键参数<br>String 的 tag 即生产者和订阅者在定义时的标记<br>Class&lt;?&gt; 的 clazz 事件的参数类型,也就是生产者的返回类型,即订阅者的接收类型<br>此类重写了<code>hashCode</code>和<code>equals</code>方法,来确保事件的唯一性.</p>
+<h2 id="ProducerEvent-和-SubscriberEvent"><a href="#ProducerEvent-和-SubscriberEvent" class="headerlink" title="ProducerEvent 和 SubscriberEvent"></a>ProducerEvent 和 SubscriberEvent</h2><p>同EventTy一样,同样重写了<code>hashCode</code>和<code>equals</code>方法,来确保唯一性.<br>两类主要参数相同.主要为三个参数.用于在register时通过反射拿到生产者或订阅者的信息,并储存到对应的对象中去,并且与<code>EventType</code>以键值对的形式进行保存.<br>Object 的 target 用于标示注册的对象.<br>Method 的 method 生产的方法,或订阅的方法<br>EventThread 的 thread 调用时的线程类型.<br>通过这三者信息,当Bus发送消息时通过EventType找到对应的值,就能通过反射调用其中的订阅方法,并将数据传递过去</p>
+<h2 id="RxBus"><a href="#RxBus" class="headerlink" title="RxBus"></a>RxBus</h2><p>一个简单的工具类,提供了获取Bus的单例对象的方法.</p>
+<h2 id="Bus"><a href="#Bus" class="headerlink" title="Bus"></a>Bus</h2><p>核心的类,在该类中进行注册,取消注册,发布等等操作.<br>该类的构造函数并未私有,在创建其对象时需要注意其<code>ThreadEnforcer</code><br>该对象有两个默认实现对象,限定了register和post等操作的线程.</p>
+<h2 id="Finder"><a href="#Finder" class="headerlink" title="Finder"></a>Finder</h2><p>抽象接口,两个抽象方法,用于查找<code>Producers</code>和<code>Subscribers</code>对象.<br>其默认内部实现类<strong>Finder.ANNOTATED</strong><br>该类的实现很有意思,一般接口都是抽象让其他对象去集成,而这内部的实现类只是调用了<strong>AnnotatedFinder</strong>类的方法而已,<strong>AnnotatedFinder</strong>并没有实现<strong>Finder</strong>的接口.</p>
+<h2 id="AnnotatedFinder"><a href="#AnnotatedFinder" class="headerlink" title="AnnotatedFinder"></a>AnnotatedFinder</h2><p>该类是一个final类,通过静态方法实现了对Finder接口的查找对象的返回.<br>在register时,会调用该类,对注册对象进行反射解析,找到其生产者和订阅者,并以对象类型为Key以其找到的两个对象为value作为缓存储存在两个map集合中,防止无意义的重复注册</p>
+
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="ErQi WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="ErQi Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/13/FlexboxLayout初探/" itemprop="url">
-                  FlexboxLayout初探
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
-              2016-08-13
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/Rxjava/" rel="tag">#Rxjava</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>初步探索google开源库FlexboxLayout<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/13/FlexboxLayout初探/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/13/FlexboxLayout初探/" rel="next" title="FlexboxLayout初探">
+                <i class="fa fa-chevron-left"></i> FlexboxLayout初探
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/08/13/使用Android Studio方便的阅读源码/" rel="prev" title="使用Android Studio方便的阅读Android源码">
+                使用Android Studio方便的阅读Android源码 <i class="fa fa-chevron-right"></i>
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/08/13/4.4状态栏沉浸/" itemprop="url">
-                  4.4状态栏沉浸
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
-              2016-08-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/兼容/" itemprop="url" rel="index">
-                    <span itemprop="name">兼容</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>4.4状态栏的沉浸兼容<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/13/4.4状态栏沉浸/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
+      
+    </div>
+  </div>
 
 
           </div>
@@ -594,6 +433,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -613,8 +456,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/default_avatar.jpg"
@@ -675,6 +527,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RxBus的简单流程图"><span class="nav-number">1.</span> <span class="nav-text">RxBus的简单流程图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类的简单分析"><span class="nav-number">2.</span> <span class="nav-text">类的简单分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Produce-和-Subscribe"><span class="nav-number">2.1.</span> <span class="nav-text">Produce 和 Subscribe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventType"><span class="nav-number">2.2.</span> <span class="nav-text">EventType</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProducerEvent-和-SubscriberEvent"><span class="nav-number">2.3.</span> <span class="nav-text">ProducerEvent 和 SubscriberEvent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxBus"><span class="nav-number">2.4.</span> <span class="nav-text">RxBus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bus"><span class="nav-number">2.5.</span> <span class="nav-text">Bus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finder"><span class="nav-number">2.6.</span> <span class="nav-text">Finder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AnnotatedFinder"><span class="nav-number">2.7.</span> <span class="nav-text">AnnotatedFinder</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -771,6 +634,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

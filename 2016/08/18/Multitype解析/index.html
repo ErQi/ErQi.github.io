@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android Studio,源码," />
+  <meta name="keywords" content="学习," />
 
 
 
@@ -84,21 +84,16 @@
 
 
 
-<meta name="description" content="小伙伴再也不用纠结如何查看源码了~">
+<meta name="description" content="MultiType分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Android Studio方便的阅读Android源码">
-<meta property="og:url" content="http://yoursite.com/2016/08/11/使用Android Studio方便的阅读源码/index.html">
+<meta property="og:title" content="MultiType解析">
+<meta property="og:url" content="http://yoursite.com/2016/08/18/Multitype解析/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="小伙伴再也不用纠结如何查看源码了~">
-<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
-<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/未编译.png">
-<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/配置源码.png">
-<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/编译完成.png">
-<meta property="og:updated_time" content="2016-06-04T01:42:27.942Z">
+<meta property="og:description" content="MultiType分析">
+<meta property="og:updated_time" content="2016-08-18T03:37:19.736Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Android Studio方便的阅读Android源码">
-<meta name="twitter:description" content="小伙伴再也不用纠结如何查看源码了~">
-<meta name="twitter:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
+<meta name="twitter:title" content="MultiType解析">
+<meta name="twitter:description" content="MultiType分析">
 
 
 
@@ -119,7 +114,7 @@
 
 
 
-  <title> 使用Android Studio方便的阅读Android源码 | ErQi </title>
+  <title> MultiType解析 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +254,7 @@
             
             
               
-                使用Android Studio方便的阅读Android源码
+                MultiType解析
               
             
           </h1>
@@ -271,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-11T09:47:22+08:00" content="2016-08-11">
-              2016-08-11
+            <time itemprop="dateCreated" datetime="2016-08-18T11:29:30+08:00" content="2016-08-18">
+              2016-08-18
             </time>
           </span>
 
@@ -285,8 +280,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/基础/" itemprop="url" rel="index">
-                    <span itemprop="name">基础</span>
+                  <a href="/categories/开源库分析/" itemprop="url" rel="index">
+                    <span itemprop="name">开源库分析</span>
                   </a>
                 </span>
 
@@ -318,17 +313,22 @@
       
 
       
-        <p>小伙伴再也不用纠结如何查看源码了~<br><a id="more"></a></p>
-<ul>
-<li>准备工作<ol>
-<li>工具 <strong>Android Studio</strong><br>自行翻墙至<a href="https://developer.android.com/intl/zh-cn/sdk/index.html" target="_blank" rel="external">官网下载</a>,或者<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">androiddevtools</a>,安装过程就不在复述了,网上教程大把.</li>
-<li>源码<br>源码直接使用SDK Manager打开下载即可示例图.<br><img src="../../../../images/阅读源码/sdk下载.png" alt="源码下载"><br>下载完成之后再SDK目录下sources文件夹里即可找到对应的源码.</li>
-</ol>
-</li>
-</ul>
-<ul>
-<li>导入阅读<br>  直接将源码根目录作为项目导入,这时由于没有相关配置文件,导入的源码并不能被编译,都是作为普通的文件存在,自然语法高亮,跳转等方便的操作均无法实现.<br>  <img src="../../../../images/阅读源码/未编译.png" alt="未编译"><br>  这时候需要到项目视图窗口,切换到项目视图,然后右键-&gt;F4 打开项目设置,修改属性为sources,然后应用,<br>  <img src="../../../../images/阅读源码/配置源码.png" alt="配置"><br>  这时候就可以愉快的查看源码了.<br>  <img src="../../../../images/阅读源码/编译完成.png" alt="编译完成"></li>
-</ul>
+        <p>MultiType分析<br><a id="more"></a></p>
+<h1 id="MultiType"><a href="#MultiType" class="headerlink" title="MultiType"></a>MultiType</h1><p>项目地址: <a href="https://github.com/drakeet/MultiType" target="_blank" rel="external">https://github.com/drakeet/MultiType</a><br>作者博客: <a href="https://drakeet.me/multitype" target="_blank" rel="external">作者的中文介绍</a></p>
+<blockquote>
+<p>Android 复杂的多类型列表视图新写法，清晰、灵活、模块开发、插件化思想</p>
+</blockquote>
+<h1 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h1><p>通过对Adapter的再拆分,通过MVP的模式实现解耦合打到插件化开发的便利性.</p>
+<h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><p>对应<strong>ItemContent</strong><br>这只是一个空接口,便于统一实现,带来了良好的扩展性.<br>每一个<strong>ItemContent</strong>都有其对应的<strong>ItemViewProvider</strong>,两者之间通过<strong>MultiTypePool</strong>这个工具类来完成对应的关系绑定.</p>
+<h2 id="View"><a href="#View" class="headerlink" title="View"></a>View</h2><p>对应<strong>ItemViewProvider</strong>将原来的Adapter中的<code>onCreateViewHolder</code>,<code>onBindViewHolder</code>在自己内部对应实现,这样在多类型时,就不用再一个adapter中的<code>onCreateViewHolder</code>,<code>onBindViewHolder</code>做过多的判断,去生成对应的ViewHolder和绑定数据,将功能实现解耦,模块更细分,从而提高代码的可读性.</p>
+<h2 id="Presenter"><a href="#Presenter" class="headerlink" title="Presenter"></a>Presenter</h2><p>对应<strong>MultiTypeAdapter</strong>(大概吧.)<br>对应P的划分找不到一个合适的切入点,因为P是逻辑层负责调用<code>Model</code>与<code>View</code>,并处理相互之间的数据填充等,从这里来看那么就是<strong>MultiTypeAdapter</strong>没跑了,但是<br><strong>MultiTypePool</strong>:负责处理<code>Model</code>与<code>View</code>之间的映射关系<br><strong>TypeItem</strong>:负责包装<code>Model</code>,在<code>MultiTypeAdapter</code>中调用的是<code>TypeTtem</code>对象,在通过该对象调用到<code>ItemContent</code>.<br><strong>TypeItemFactory</strong>:<code>TypeItem</code>的工厂类,根据<code>ItemConten</code>生成对应的TypeItem</p>
+<h2 id="未理解"><a href="#未理解" class="headerlink" title="未理解"></a>未理解</h2><p><strong>Savable</strong>两个接口方法,一个传参byte[]一个返回byte[],但是感觉接口有点过于鸡肋,作用并不明显,可以在Model中指定参数即可.</p>
+<h3 id="作者回复"><a href="#作者回复" class="headerlink" title="作者回复"></a>作者回复</h3><blockquote>
+<p>通过 Savable，我们可以把任意 TypeItem (可能包含不同的 ItemContent 子类对象)，统一存储到一个数据库表中，不需要新增字段也不需要修改表结构。<br>简单说，Savable 使得我们能够不修改数据库字段和表结构的情况下，容纳任意类型数据，这和 MultiType 的设计初衷是一样的，做一个新需求，不需要修改任何旧的代码，只要增加新代码即可。<br>它是一个可选接口，如果你不需要存储，或者想自己设计存储方案，完全可以无视它、不必实现它。</p>
+</blockquote>
+<h3 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h3><p>Savable是针对本地储存是的可选接口,提供了本地储存数据的统一格式,便于数据库储存,而不用针对不同类型数据时修改数据库类型.</p>
+<h1 id="个人优缺点分析"><a href="#个人优缺点分析" class="headerlink" title="个人优缺点分析"></a>个人优缺点分析</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>MVP解耦合,便于插件化开发,方便界面多种类型布局的列表适配,极大的提升了代码的可读性,在还需要交流理解的情况下,代码可读性是至关重要的.</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>由于解耦合是针对于内部的Adapter中进行的,那么就不能和以前一样拿到数据,在内部进行判断在返回对应的itemType了,需要在获取数据源时针对数据源进行改造处理,变成对应的<code>TypeItem</code>集合了.</p>
 
       
     </div>
@@ -372,9 +372,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android-Studio/" rel="tag">#Android Studio</a>
-          
-            <a href="/tags/源码/" rel="tag">#源码</a>
+            <a href="/tags/学习/" rel="tag">#学习</a>
           
         </div>
       
@@ -383,17 +381,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/11/上传库至bintray/" rel="next" title="上传library到公共的jcenter仓库">
-                <i class="fa fa-chevron-left"></i> 上传library到公共的jcenter仓库
+              <a href="/2016/08/13/小知识/" rel="next" title="各种小知识">
+                <i class="fa fa-chevron-left"></i> 各种小知识
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/11/多RecyclerView间关联滚动/" rel="prev" title="RecyclerView互相关联滚动">
-                RecyclerView互相关联滚动 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -484,7 +478,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -541,7 +535,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MultiType"><span class="nav-number">1.</span> <span class="nav-text">MultiType</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心"><span class="nav-number">2.</span> <span class="nav-text">核心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model"><span class="nav-number">2.1.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View"><span class="nav-number">2.2.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter"><span class="nav-number">2.3.</span> <span class="nav-text">Presenter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未理解"><span class="nav-number">2.4.</span> <span class="nav-text">未理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作者回复"><span class="nav-number">2.4.1.</span> <span class="nav-text">作者回复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人理解"><span class="nav-number">2.4.2.</span> <span class="nav-text">个人理解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#个人优缺点分析"><span class="nav-number">3.</span> <span class="nav-text">个人优缺点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
