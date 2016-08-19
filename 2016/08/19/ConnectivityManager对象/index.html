@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/19/ConnectivityManager对象/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="ConnectivityManager内存泄露,一脸懵逼.">
-<meta property="og:updated_time" content="2016-08-19T10:02:14.622Z">
+<meta property="og:updated_time" content="2016-08-19T10:04:22.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ConnectivityManager内存泄露">
 <meta name="twitter:description" content="ConnectivityManager内存泄露,一脸懵逼.">
@@ -317,7 +317,7 @@
 <h1 id="ConnectivityManager内存泄露"><a href="#ConnectivityManager内存泄露" class="headerlink" title="ConnectivityManager内存泄露"></a>ConnectivityManager内存泄露</h1><p>在APP中使用了<code>ConnectivityManager</code>来进行网络判断,然后竟然莫名其妙的内存泄露了…一脸懵逼.</p>
 <p>思路源于<a href="http://www.jianshu.com/p/7d4b55f7ed9f" target="_blank" rel="external">ConnectivityManager内存泄露分析</a></p>
 <p>觉得直接看一遍作用不大,于是自己跟着源码来进行一次分析</p>
-<h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 内存泄露代码</div><div class="line">ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);</div></pre></td></tr></table></figure>
+<h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 内存泄露代码</div><div class="line">ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</div></pre></td></tr></table></figure>
 <p>首先<strong>Activity</strong>的<strong>Context</strong>都知道其实是一个<strong>ContextImpl</strong>对象.那么调用的自然也就是<strong>ContextImpl</strong>的<code>getSystemService(String name)</code>方法.<br>代码如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public Object getSystemService(String name) &#123;</div><div class="line">    return SystemServiceRegistry.getSystemService(this, name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>很明显这里调用了静态类的静态方法,进而返回了<code>ConnectivityManager</code>对象,进而导致内存泄露.</p>
