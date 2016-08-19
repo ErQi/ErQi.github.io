@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="沉浸式," />
+  <meta name="keywords" content="知识点," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="4.4状态栏的沉浸兼容">
+<meta name="description" content="ConnectivityManager内存泄露,一脸懵逼.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="4.4状态栏沉浸">
-<meta property="og:url" content="http://yoursite.com/2016/08/13/4.4状态栏沉浸/index.html">
+<meta property="og:title" content="ConnectivityManager内存泄露">
+<meta property="og:url" content="http://yoursite.com/2016/08/19/ConnectivityManager对象/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="4.4状态栏的沉浸兼容">
-<meta property="og:updated_time" content="2016-08-13T06:35:34.722Z">
+<meta property="og:description" content="ConnectivityManager内存泄露,一脸懵逼.">
+<meta property="og:updated_time" content="2016-08-19T10:02:14.622Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.4状态栏沉浸">
-<meta name="twitter:description" content="4.4状态栏的沉浸兼容">
+<meta name="twitter:title" content="ConnectivityManager内存泄露">
+<meta name="twitter:description" content="ConnectivityManager内存泄露,一脸懵逼.">
 
 
 
@@ -114,7 +114,7 @@
 
 
 
-  <title> 4.4状态栏沉浸 | ErQi </title>
+  <title> ConnectivityManager内存泄露 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -254,7 +254,7 @@
             
             
               
-                4.4状态栏沉浸
+                ConnectivityManager内存泄露
               
             
           </h1>
@@ -266,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
-              2016-08-13
+            <time itemprop="dateCreated" datetime="2016-08-19T17:03:44+08:00" content="2016-08-19">
+              2016-08-19
             </time>
           </span>
 
@@ -280,8 +280,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/兼容/" itemprop="url" rel="index">
-                    <span itemprop="name">兼容</span>
+                  <a href="/categories/内存泄露/" itemprop="url" rel="index">
+                    <span itemprop="name">内存泄露</span>
                   </a>
                 </span>
 
@@ -313,14 +313,29 @@
       
 
       
-        <p>4.4状态栏的沉浸兼容<br><a id="more"></a></p>
-<h1 id="沉浸式状态栏"><a href="#沉浸式状态栏" class="headerlink" title="沉浸式状态栏"></a>沉浸式状态栏</h1><p>关于状态栏的沉浸,网上资料很多,可以如下几种</p>
-<h2 id="Style沉浸"><a href="#Style沉浸" class="headerlink" title="Style沉浸"></a>Style沉浸</h2><p>基于NoActionBar主题的,所以在<code>AndroidManifest</code>文件中的Activity要做对应的修改.<br>在style-19中设置状态栏沉浸<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;resources&gt;</div><div class="line">    &lt;style name=&quot;AppTheme&quot; parent=&quot;@style/BaseAppTheme&quot;&gt;</div><div class="line">        &lt;item name=&quot;android:windowTranslucentStatus&quot;&gt;true&lt;/item&gt;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/resources&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="代码沉浸"><a href="#代码沉浸" class="headerlink" title="代码沉浸"></a>代码沉浸</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</div><div class="line">           getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<h2 id="开源库沉浸"><a href="#开源库沉浸" class="headerlink" title="开源库沉浸"></a>开源库沉浸</h2><p><a href="https://github.com/jgilfelt/SystemBarTint" target="_blank" rel="external">SystemBarTint</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">@Override  </div><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;  </div><div class="line">    super.onCreate(savedInstanceState);  </div><div class="line">    setContentView(R.layout.activity_main);  </div><div class="line">    // 创建状态栏的管理实例  </div><div class="line">    SystemBarTintManager tintManager = new SystemBarTintManager(this);  </div><div class="line">    // 激活状态栏设置  </div><div class="line">    tintManager.setStatusBarTintEnabled(true);  </div><div class="line">    // 激活导航栏设置  </div><div class="line">    tintManager.setNavigationBarTintEnabled(true);  </div><div class="line">    // 设置一个颜色给系统栏  </div><div class="line">    tintManager.setTintColor(Color.parseColor(&quot;#99000FF&quot;));  </div><div class="line">    // 设置一个样式背景给导航栏  </div><div class="line">    tintManager.setNavigationBarTintResource(R.drawable.my_tint);  </div><div class="line">    // 设置一个状态栏资源  </div><div class="line">    tintManager.setStatusBarTintDrawable(MyDrawable);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>style方式和代码设置,本质上是殊途同归,只有极个别界面需要沉浸时建议使用代码,页面都需要沉浸时建议使用style,简单省事.<br>两者都是讲界面的整体布局沉浸到状态栏,所以布局的原点是位于屏幕的左上角的原点,并非是状态栏下方的原点.<br>需要在布局中使用<code>android:fitsSystemWindows=&quot;true&quot;</code>该属性无他,就是将该布局在计算长度的时,自动加上一截状态栏的长度,避免内容信息沉浸到状态栏.</p>
-<p>看到<a href="http://tieba.baidu.com/p/4256718346" target="_blank" rel="external">贴吧</a>有人通过动态添加一个状态栏的View的高度,并设置颜色.<br>更多的是使用<a href="https://github.com/jgilfelt/SystemBarTint" target="_blank" rel="external">SystemBarTint</a>.</p>
-<h1 id="我的方案"><a href="#我的方案" class="headerlink" title="我的方案"></a>我的方案</h1><p>使用Style进行整体沉浸,然后再界面根布局沉浸,设置好对应状态栏的背景色,已达到沉浸的效果.</p>
+        <p>ConnectivityManager内存泄露,一脸懵逼.<br><a id="more"></a></p>
+<h1 id="ConnectivityManager内存泄露"><a href="#ConnectivityManager内存泄露" class="headerlink" title="ConnectivityManager内存泄露"></a>ConnectivityManager内存泄露</h1><p>在APP中使用了<code>ConnectivityManager</code>来进行网络判断,然后竟然莫名其妙的内存泄露了…一脸懵逼.</p>
+<p>思路源于<a href="http://www.jianshu.com/p/7d4b55f7ed9f" target="_blank" rel="external">ConnectivityManager内存泄露分析</a></p>
+<p>觉得直接看一遍作用不大,于是自己跟着源码来进行一次分析</p>
+<h2 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 内存泄露代码</div><div class="line">ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);</div></pre></td></tr></table></figure>
+<p>首先<strong>Activity</strong>的<strong>Context</strong>都知道其实是一个<strong>ContextImpl</strong>对象.那么调用的自然也就是<strong>ContextImpl</strong>的<code>getSystemService(String name)</code>方法.<br>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public Object getSystemService(String name) &#123;</div><div class="line">    return SystemServiceRegistry.getSystemService(this, name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很明显这里调用了静态类的静态方法,进而返回了<code>ConnectivityManager</code>对象,进而导致内存泄露.</p>
+<h2 id="SystemServiceRegistry"><a href="#SystemServiceRegistry" class="headerlink" title="SystemServiceRegistry"></a>SystemServiceRegistry</h2><p>很明显就是在<strong>SystemServiceRegistry</strong>调用静态方法中出现了问题.该方法调用了静态对象进行查找并返回,代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public static Object getSystemService(ContextImpl ctx, String name) &#123;</div><div class="line">    ServiceFetcher&lt;?&gt; fetcher = SYSTEM_SERVICE_FETCHERS.get(name);</div><div class="line">    return fetcher != null ? fetcher.getService(ctx) : null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>方法中先是进行查到,返回一个<strong>ServiceFetcher</strong>对象,并且调用其<code>getService(ContextImpl ctx)</code>方法,来返回用到的ConnectivityManager对象.<br>而<strong>SYSTEM_SERVICE_FETCHERS</strong>初始化是在静态语句块中完成的.通过<strong>Context.CONNECTIVITY_SERVICE</strong>在静态语句块中找到了其注册过程.代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">registerService(Context.CONNECTIVITY_SERVICE, ConnectivityManager.class,</div><div class="line">        new StaticOuterContextServiceFetcher&lt;ConnectivityManager&gt;() &#123;</div><div class="line">    @Override</div><div class="line">    public ConnectivityManager createService(Context context) &#123;</div><div class="line">        IBinder b = ServiceManager.getService(Context.CONNECTIVITY_SERVICE);</div><div class="line">        IConnectivityManager service = IConnectivityManager.Stub.asInterface(b);</div><div class="line">        return new ConnectivityManager(context, service);</div><div class="line">    &#125;&#125;);</div></pre></td></tr></table></figure>
+<h2 id="StaticOuterContextServiceFetcher"><a href="#StaticOuterContextServiceFetcher" class="headerlink" title="StaticOuterContextServiceFetcher"></a>StaticOuterContextServiceFetcher</h2><p>由此可以看到在<strong>SystemServiceRegistry</strong>查找的方法中返回的是一个<strong>StaticOuterContextServiceFetcher</strong>对象.我感觉真相理我不远了<code>(看了一遍别人分析的也好意思说...)</code><br><strong>StaticOuterContextServiceFetcher</strong>对象代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">static abstract class StaticOuterContextServiceFetcher&lt;T&gt; implements ServiceFetcher&lt;T&gt; &#123;</div><div class="line">    private T mCachedInstance;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public final T getService(ContextImpl ctx) &#123;</div><div class="line">        synchronized (StaticOuterContextServiceFetcher.this) &#123;</div><div class="line">            if (mCachedInstance == null) &#123;</div><div class="line">                mCachedInstance = createService(ctx.getOuterContext());</div><div class="line">            &#125;</div><div class="line">            return mCachedInstance;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public abstract T createService(Context applicationContext);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里就很清晰了,在调用<code>getService(ContextImpl ctx)</code>时候调用了<code>createService(Context applicationContext)</code>方法,传递过去的<strong>Context</strong>对象为<strong>ContextImpl.getOuterContext()</strong>返回的<code>mOuterContext</code>对象,而<code>mOuterContext</code>对象是在<strong>ContextImpl</strong>创建的时候进行的初始化<figure class="highlight plain"><figcaption><span>= this;```,也就是其本身.</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">再看**SystemServiceRegistry**中实现的`createService()`方法.它利用**Context**创建并返回了一个**ConnectivityManager**对象</div><div class="line"></div><div class="line">## ConnectivityManager ##</div></pre></td></tr></table></figure></p>
+<pre><code>private static ConnectivityManager sInstance;
+.....
+public ConnectivityManager(Context context, IConnectivityManager service) {
+    mContext = checkNotNull(context, &quot;missing context&quot;);
+    mService = checkNotNull(service, &quot;missing IConnectivityManager&quot;);
+    sInstance = this;
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">这里可以看到**ConnectivityManager**是个单例对象,并且持有了**Context**的对象引用,即**ContextImpl**的`mOuterContext`对象,也就是自己.也就是**Activity**的**Context**.</div><div class="line">到这里就水落石出了,坑爹的**ConnectivityManager**竟然是单例对象,还会持有调用对象的**Context**对象,我傻傻的用Activity去获取,自然导致Activity内存泄露,无法被释放.</div><div class="line">## 解决办法 ##</div><div class="line">单例对象自然寿与天齐,Activity肯定是不能真么干的,那么就给他寿与天齐的**Context**对象即可.</div></pre></td></tr></table></figure>
+<p>   context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);<br>```</p>
 
       
     </div>
@@ -364,7 +379,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/沉浸式/" rel="tag">#沉浸式</a>
+            <a href="/tags/知识点/" rel="tag">#知识点</a>
           
         </div>
       
@@ -373,13 +388,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/18/Multitype解析/" rel="next" title="MultiType解析">
+                <i class="fa fa-chevron-left"></i> MultiType解析
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/13/FlexboxLayout初探/" rel="prev" title="FlexboxLayout初探">
-                FlexboxLayout初探 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -527,7 +542,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#沉浸式状态栏"><span class="nav-number">1.</span> <span class="nav-text">沉浸式状态栏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Style沉浸"><span class="nav-number">1.1.</span> <span class="nav-text">Style沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码沉浸"><span class="nav-number">1.2.</span> <span class="nav-text">代码沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源库沉浸"><span class="nav-number">1.3.</span> <span class="nav-text">开源库沉浸</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的方案"><span class="nav-number">3.</span> <span class="nav-text">我的方案</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ConnectivityManager内存泄露"><span class="nav-number">1.</span> <span class="nav-text">ConnectivityManager内存泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Context"><span class="nav-number">1.1.</span> <span class="nav-text">Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SystemServiceRegistry"><span class="nav-number">1.2.</span> <span class="nav-text">SystemServiceRegistry</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StaticOuterContextServiceFetcher"><span class="nav-number">1.3.</span> <span class="nav-text">StaticOuterContextServiceFetcher</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
