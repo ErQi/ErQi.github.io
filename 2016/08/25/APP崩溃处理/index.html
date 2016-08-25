@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="学习," />
+  <meta name="keywords" content="体验优化," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="MultiType分析">
+<meta name="description" content="解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MultiType解析">
-<meta property="og:url" content="http://yoursite.com/2016/08/18/Multitype解析/index.html">
+<meta property="og:title" content="APP崩溃处理">
+<meta property="og:url" content="http://yoursite.com/2016/08/25/APP崩溃处理/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="MultiType分析">
-<meta property="og:updated_time" content="2016-08-18T03:37:19.736Z">
+<meta property="og:description" content="解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题">
+<meta property="og:updated_time" content="2016-08-25T07:35:58.011Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MultiType解析">
-<meta name="twitter:description" content="MultiType分析">
+<meta name="twitter:title" content="APP崩溃处理">
+<meta name="twitter:description" content="解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题">
 
 
 
@@ -114,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/18/Multitype解析/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/25/APP崩溃处理/"/>
 
-  <title> MultiType解析 | ErQi </title>
+  <title> APP崩溃处理 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +256,7 @@
             
             
               
-                MultiType解析
+                APP崩溃处理
               
             
           </h1>
@@ -268,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-18T11:29:30+08:00" content="2016-08-18">
-              2016-08-18
+            <time itemprop="dateCreated" datetime="2016-08-25T14:08:48+08:00" content="2016-08-25">
+              2016-08-25
             </time>
           </span>
 
@@ -282,8 +282,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/开源库分析/" itemprop="url" rel="index">
-                    <span itemprop="name">开源库分析</span>
+                  <a href="/categories/性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">性能优化</span>
                   </a>
                 </span>
 
@@ -315,22 +315,13 @@
       
 
       
-        <p>MultiType分析<br><a id="more"></a></p>
-<h1 id="MultiType"><a href="#MultiType" class="headerlink" title="MultiType"></a>MultiType</h1><p>项目地址: <a href="https://github.com/drakeet/MultiType" target="_blank" rel="external">https://github.com/drakeet/MultiType</a><br>作者博客: <a href="https://drakeet.me/multitype" target="_blank" rel="external">作者的中文介绍</a></p>
-<blockquote>
-<p>Android 复杂的多类型列表视图新写法，清晰、灵活、模块开发、插件化思想</p>
-</blockquote>
-<h1 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h1><p>通过对Adapter的再拆分,通过MVP的模式实现解耦合打到插件化开发的便利性.</p>
-<h2 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h2><p>对应<strong>ItemContent</strong><br>这只是一个空接口,便于统一实现,带来了良好的扩展性.<br>每一个<strong>ItemContent</strong>都有其对应的<strong>ItemViewProvider</strong>,两者之间通过<strong>MultiTypePool</strong>这个工具类来完成对应的关系绑定.</p>
-<h2 id="View"><a href="#View" class="headerlink" title="View"></a>View</h2><p>对应<strong>ItemViewProvider</strong>将原来的Adapter中的<code>onCreateViewHolder</code>,<code>onBindViewHolder</code>在自己内部对应实现,这样在多类型时,就不用再一个adapter中的<code>onCreateViewHolder</code>,<code>onBindViewHolder</code>做过多的判断,去生成对应的ViewHolder和绑定数据,将功能实现解耦,模块更细分,从而提高代码的可读性.</p>
-<h2 id="Presenter"><a href="#Presenter" class="headerlink" title="Presenter"></a>Presenter</h2><p>对应<strong>MultiTypeAdapter</strong>(大概吧.)<br>对应P的划分找不到一个合适的切入点,因为P是逻辑层负责调用<code>Model</code>与<code>View</code>,并处理相互之间的数据填充等,从这里来看那么就是<strong>MultiTypeAdapter</strong>没跑了,但是<br><strong>MultiTypePool</strong>:负责处理<code>Model</code>与<code>View</code>之间的映射关系<br><strong>TypeItem</strong>:负责包装<code>Model</code>,在<code>MultiTypeAdapter</code>中调用的是<code>TypeTtem</code>对象,在通过该对象调用到<code>ItemContent</code>.<br><strong>TypeItemFactory</strong>:<code>TypeItem</code>的工厂类,根据<code>ItemConten</code>生成对应的TypeItem</p>
-<h2 id="未理解"><a href="#未理解" class="headerlink" title="未理解"></a>未理解</h2><p><strong>Savable</strong>两个接口方法,一个传参byte[]一个返回byte[],但是感觉接口有点过于鸡肋,作用并不明显,可以在Model中指定参数即可.</p>
-<h3 id="作者回复"><a href="#作者回复" class="headerlink" title="作者回复"></a>作者回复</h3><blockquote>
-<p>通过 Savable，我们可以把任意 TypeItem (可能包含不同的 ItemContent 子类对象)，统一存储到一个数据库表中，不需要新增字段也不需要修改表结构。<br>简单说，Savable 使得我们能够不修改数据库字段和表结构的情况下，容纳任意类型数据，这和 MultiType 的设计初衷是一样的，做一个新需求，不需要修改任何旧的代码，只要增加新代码即可。<br>它是一个可选接口，如果你不需要存储，或者想自己设计存储方案，完全可以无视它、不必实现它。</p>
-</blockquote>
-<h3 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h3><p>Savable是针对本地储存是的可选接口,提供了本地储存数据的统一格式,便于数据库储存,而不用针对不同类型数据时修改数据库类型.</p>
-<h1 id="个人优缺点分析"><a href="#个人优缺点分析" class="headerlink" title="个人优缺点分析"></a>个人优缺点分析</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>MVP解耦合,便于插件化开发,方便界面多种类型布局的列表适配,极大的提升了代码的可读性,在还需要交流理解的情况下,代码可读性是至关重要的.</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>由于解耦合是针对于内部的Adapter中进行的,那么就不能和以前一样拿到数据,在内部进行判断在返回对应的itemType了,需要在获取数据源时针对数据源进行改造处理,变成对应的<code>TypeItem</code>集合了.</p>
+        <p>解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题<br><a id="more"></a></p>
+<h1 id="异常崩溃处理"><a href="#异常崩溃处理" class="headerlink" title="异常崩溃处理"></a>异常崩溃处理</h1><p>每行代码都有潜在的崩溃风险,可能是逻辑有问题,可能是性能问题,可能是系统限制,版本迭代各种兼容性问题.<br>在无法测试出每一种可能出线的bug的情况下,针对崩溃的进行处理,给予用户更好的体验就很有必要了.</p>
+<h2 id="系统默认崩溃处理"><a href="#系统默认崩溃处理" class="headerlink" title="系统默认崩溃处理"></a>系统默认崩溃处理</h2><p>APP发生的未被捕获的异常,统一会回调<strong>Thread.UncaughtExceptionHandler</strong>接口的<code>uncaughtException(Thread t, Throwable e)</code>方法,系统在<strong>RuntimeInit</strong>中实现了该接口,如下就是系统处理异常的代码.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public void uncaughtException(Thread t, Throwable e) &#123;</div><div class="line">    try &#123;</div><div class="line">        // Don&apos;t re-enter -- avoid infinite loops if crash-reporting crashes.</div><div class="line">        if (mCrashing) return;</div><div class="line">        mCrashing = true;</div><div class="line"></div><div class="line">        if (mApplicationObject == null) &#123;</div><div class="line">            Clog_e(TAG, &quot;*** FATAL EXCEPTION IN SYSTEM PROCESS: &quot; + t.getName(), e);</div><div class="line">        &#125; else &#123;</div><div class="line">            StringBuilder message = new StringBuilder();</div><div class="line">            message.append(&quot;FATAL EXCEPTION: &quot;).append(t.getName()).append(&quot;\n&quot;);</div><div class="line">            final String processName = ActivityThread.currentProcessName();</div><div class="line">            if (processName != null) &#123;</div><div class="line">                message.append(&quot;Process: &quot;).append(processName).append(&quot;, &quot;);</div><div class="line">            &#125;</div><div class="line">            message.append(&quot;PID: &quot;).append(Process.myPid());</div><div class="line">            Clog_e(TAG, message.toString(), e);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Bring up crash dialog, wait for it to be dismissed</div><div class="line">        ActivityManagerNative.getDefault().handleApplicationCrash(</div><div class="line">                mApplicationObject, new ApplicationErrorReport.CrashInfo(e));</div><div class="line">    &#125; catch (Throwable t2) &#123;</div><div class="line">        try &#123;</div><div class="line">            Clog_e(TAG, &quot;Error reporting crash&quot;, t2);</div><div class="line">        &#125; catch (Throwable t3) &#123;</div><div class="line">            // Even Clog_e() fails!  Oh well.</div><div class="line">        &#125;</div><div class="line">    &#125; finally &#123;</div><div class="line">        // Try everything to make sure this process goes away.</div><div class="line">        Process.killProcess(Process.myPid());</div><div class="line">        System.exit(10);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看出系统在崩溃的时候并没有进行太多的操作,仅仅只是输出提示错误信息,然后干掉当前进程,同时关掉当前虚拟机.<br>同时由于Android的处理机制,此类异常关闭的Activity,会被系统重新创建并启动,但是启动的仅仅只是当前的崩溃的Activity,由于进程已经被干掉,所以之前在进程中的各种对象都是重新创建的,需要用到其他地方保存下来,或传递过来的值时,就会出现各种错误.导致一系列报错,体验感十分不佳.</p>
+<h2 id="自定义异常处理"><a href="#自定义异常处理" class="headerlink" title="自定义异常处理"></a>自定义异常处理</h2><p>首先我们要自己实现<strong>Thread.UncaughtExceptionHandler</strong>接口,尔后在<strong>Application</strong>中取代系统原来的.<br>为了给用户良好的体验,数据异常了,当前进程已经被暂停了,我们想恢复APP那么肯定就需要开一个新的进程把初始逻辑在从新走一遍.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void uncaughtException(Thread thread, Throwable ex) &#123;</div><div class="line">    if (mCrashing) return;</div><div class="line">    mCrashing = false;</div><div class="line">    try &#123;</div><div class="line">        handleException(ex);</div><div class="line">        Thread.sleep(1000);</div><div class="line">    &#125; catch (InterruptedException e) &#123;</div><div class="line">        Log.e(TAG, &quot;error : &quot;, e);</div><div class="line">    &#125;</div><div class="line">    Intent intent = new Intent(mContext, SplashActivity.class);</div><div class="line">    PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FILL_IN_DATA);</div><div class="line">    AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);</div><div class="line">    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent); // 1秒钟后重启应用</div><div class="line">    android.os.Process.killProcess(android.os.Process.myPid());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>处理方式很简单,在<code>handleException(ex)</code>中对异常信息进行本地化保存方便后续处理.核心就是使用<code>PendingIntent</code>和<code>AlarmManager</code>在进程被销毁之后重启APP流程.</p>
+<h3 id="小疑问关于重启进程"><a href="#小疑问关于重启进程" class="headerlink" title="小疑问关于重启进程"></a>小疑问关于重启进程</h3><p>通过PendingIntent 和 AlarmManager 可以重启进程.<br>那么 ContextImpl 和当前 进程 关系到底是怎样的,看相关APP启动分析都是说先启动进程,然后创建ContextImpl对象,那就是ContextImpl依赖于进程.<br>但是进程被销毁了,ContextImpl对象应该也就被销毁了,又是如何重新开启一个进程来运行APP的?</p>
 
       
     </div>
@@ -374,7 +365,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/学习/" rel="tag">#学习</a>
+            <a href="/tags/体验优化/" rel="tag">#体验优化</a>
           
         </div>
       
@@ -383,17 +374,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/13/小知识/" rel="next" title="各种小知识">
-                <i class="fa fa-chevron-left"></i> 各种小知识
+              <a href="/2016/08/19/ConnectivityManager对象/" rel="next" title="ConnectivityManager内存泄露">
+                <i class="fa fa-chevron-left"></i> ConnectivityManager内存泄露
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/19/ConnectivityManager对象/" rel="prev" title="ConnectivityManager内存泄露">
-                ConnectivityManager内存泄露 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -541,7 +528,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MultiType"><span class="nav-number">1.</span> <span class="nav-text">MultiType</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心"><span class="nav-number">2.</span> <span class="nav-text">核心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model"><span class="nav-number">2.1.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View"><span class="nav-number">2.2.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter"><span class="nav-number">2.3.</span> <span class="nav-text">Presenter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未理解"><span class="nav-number">2.4.</span> <span class="nav-text">未理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作者回复"><span class="nav-number">2.4.1.</span> <span class="nav-text">作者回复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人理解"><span class="nav-number">2.4.2.</span> <span class="nav-text">个人理解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#个人优缺点分析"><span class="nav-number">3.</span> <span class="nav-text">个人优缺点分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常崩溃处理"><span class="nav-number">1.</span> <span class="nav-text">异常崩溃处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统默认崩溃处理"><span class="nav-number">1.1.</span> <span class="nav-text">系统默认崩溃处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义异常处理"><span class="nav-number">1.2.</span> <span class="nav-text">自定义异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小疑问关于重启进程"><span class="nav-number">1.2.1.</span> <span class="nav-text">小疑问关于重启进程</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
