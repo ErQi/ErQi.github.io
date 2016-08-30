@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/13/4.4状态栏沉浸/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="4.4状态栏的沉浸兼容">
-<meta property="og:updated_time" content="2016-08-13T06:35:34.722Z">
+<meta property="og:updated_time" content="2016-08-30T09:11:55.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4.4状态栏沉浸">
 <meta name="twitter:description" content="4.4状态栏的沉浸兼容">
@@ -323,6 +323,12 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>style方式和代码设置,本质上是殊途同归,只有极个别界面需要沉浸时建议使用代码,页面都需要沉浸时建议使用style,简单省事.<br>两者都是讲界面的整体布局沉浸到状态栏,所以布局的原点是位于屏幕的左上角的原点,并非是状态栏下方的原点.<br>需要在布局中使用<code>android:fitsSystemWindows=&quot;true&quot;</code>该属性无他,就是将该布局在计算长度的时,自动加上一截状态栏的长度,避免内容信息沉浸到状态栏.</p>
 <p>看到<a href="http://tieba.baidu.com/p/4256718346" target="_blank" rel="external">贴吧</a>有人通过动态添加一个状态栏的View的高度,并设置颜色.<br>更多的是使用<a href="https://github.com/jgilfelt/SystemBarTint" target="_blank" rel="external">SystemBarTint</a>.</p>
 <h1 id="我的方案"><a href="#我的方案" class="headerlink" title="我的方案"></a>我的方案</h1><p>使用Style进行整体沉浸,然后再界面根布局沉浸,设置好对应状态栏的背景色,已达到沉浸的效果.</p>
+<hr>
+<h1 id="真正的沉浸式"><a href="#真正的沉浸式" class="headerlink" title="真正的沉浸式"></a>真正的沉浸式</h1><p>真正的沉浸式不是简单的将背景沉浸到状态栏,而是隐藏掉整个状态来,还有导航栏,比如各种手机视频直播的全屏模式,那才是真正的沉浸式,将整个界面全部沉浸进去,隐藏掉外层的状态栏,导航栏.</p>
+<h2 id="官方的沉浸"><a href="#官方的沉浸" class="headerlink" title="官方的沉浸"></a>官方的沉浸</h2><p>在新建项目的时候可以看到Activity模板中有一个就是FullScreen,我就从此入手,来了解真正的沉浸式是如何实现的.</p>
+<h3 id="全屏沉浸"><a href="#全屏沉浸" class="headerlink" title="全屏沉浸"></a>全屏沉浸</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE</div><div class="line">                    | View.SYSTEM_UI_FLAG_FULLSCREEN</div><div class="line">                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE</div><div class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY</div><div class="line">                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION</div><div class="line">                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);</div></pre></td></tr></table></figure>
+<p>首先真正解决全屏沉浸的是出现在19时,添加了<strong>SYSTEM_UI_FLAG_IMMERSIVE_STICKY</strong>,用于针对全屏应用更好的体验,而非像之前界面的点击时就会导致导航栏,状态栏的再度出现.<br>添加了该标示值时,用户在界面边缘滑动操作时,导航栏,状态栏会出现,但是在一段时间之后会自动隐藏,并不会一直出现.<br>在使用默认主题时,沉浸是需要注意针对ActionBar进行隐藏处理</p>
+<h1 id="拓展略读"><a href="#拓展略读" class="headerlink" title="拓展略读"></a>拓展略读</h1><p><a href="http://blog.csdn.net/sdvch/article/details/44209959" target="_blank" rel="external"> 管理系统UI之四：使用全屏沉浸模式（Using Immersive Full-Screen Mode）</a></p>
 
       
     </div>
@@ -472,7 +478,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -489,7 +495,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -529,7 +535,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#沉浸式状态栏"><span class="nav-number">1.</span> <span class="nav-text">沉浸式状态栏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Style沉浸"><span class="nav-number">1.1.</span> <span class="nav-text">Style沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码沉浸"><span class="nav-number">1.2.</span> <span class="nav-text">代码沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源库沉浸"><span class="nav-number">1.3.</span> <span class="nav-text">开源库沉浸</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的方案"><span class="nav-number">3.</span> <span class="nav-text">我的方案</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#沉浸式状态栏"><span class="nav-number">1.</span> <span class="nav-text">沉浸式状态栏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Style沉浸"><span class="nav-number">1.1.</span> <span class="nav-text">Style沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码沉浸"><span class="nav-number">1.2.</span> <span class="nav-text">代码沉浸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源库沉浸"><span class="nav-number">1.3.</span> <span class="nav-text">开源库沉浸</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的方案"><span class="nav-number">3.</span> <span class="nav-text">我的方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#真正的沉浸式"><span class="nav-number">4.</span> <span class="nav-text">真正的沉浸式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方的沉浸"><span class="nav-number">4.1.</span> <span class="nav-text">官方的沉浸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全屏沉浸"><span class="nav-number">4.1.1.</span> <span class="nav-text">全屏沉浸</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拓展略读"><span class="nav-number">5.</span> <span class="nav-text">拓展略读</span></a></li></ol></div>
             
           </div>
         </section>

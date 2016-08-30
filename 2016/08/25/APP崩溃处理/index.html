@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/25/APP崩溃处理/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题">
-<meta property="og:updated_time" content="2016-08-25T07:35:58.011Z">
+<meta property="og:updated_time" content="2016-08-29T09:45:48.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="APP崩溃处理">
 <meta name="twitter:description" content="解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题">
@@ -320,7 +320,7 @@
 <h2 id="系统默认崩溃处理"><a href="#系统默认崩溃处理" class="headerlink" title="系统默认崩溃处理"></a>系统默认崩溃处理</h2><p>APP发生的未被捕获的异常,统一会回调<strong>Thread.UncaughtExceptionHandler</strong>接口的<code>uncaughtException(Thread t, Throwable e)</code>方法,系统在<strong>RuntimeInit</strong>中实现了该接口,如下就是系统处理异常的代码.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">public void uncaughtException(Thread t, Throwable e) &#123;</div><div class="line">    try &#123;</div><div class="line">        // Don&apos;t re-enter -- avoid infinite loops if crash-reporting crashes.</div><div class="line">        if (mCrashing) return;</div><div class="line">        mCrashing = true;</div><div class="line"></div><div class="line">        if (mApplicationObject == null) &#123;</div><div class="line">            Clog_e(TAG, &quot;*** FATAL EXCEPTION IN SYSTEM PROCESS: &quot; + t.getName(), e);</div><div class="line">        &#125; else &#123;</div><div class="line">            StringBuilder message = new StringBuilder();</div><div class="line">            message.append(&quot;FATAL EXCEPTION: &quot;).append(t.getName()).append(&quot;\n&quot;);</div><div class="line">            final String processName = ActivityThread.currentProcessName();</div><div class="line">            if (processName != null) &#123;</div><div class="line">                message.append(&quot;Process: &quot;).append(processName).append(&quot;, &quot;);</div><div class="line">            &#125;</div><div class="line">            message.append(&quot;PID: &quot;).append(Process.myPid());</div><div class="line">            Clog_e(TAG, message.toString(), e);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Bring up crash dialog, wait for it to be dismissed</div><div class="line">        ActivityManagerNative.getDefault().handleApplicationCrash(</div><div class="line">                mApplicationObject, new ApplicationErrorReport.CrashInfo(e));</div><div class="line">    &#125; catch (Throwable t2) &#123;</div><div class="line">        try &#123;</div><div class="line">            Clog_e(TAG, &quot;Error reporting crash&quot;, t2);</div><div class="line">        &#125; catch (Throwable t3) &#123;</div><div class="line">            // Even Clog_e() fails!  Oh well.</div><div class="line">        &#125;</div><div class="line">    &#125; finally &#123;</div><div class="line">        // Try everything to make sure this process goes away.</div><div class="line">        Process.killProcess(Process.myPid());</div><div class="line">        System.exit(10);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>可以看出系统在崩溃的时候并没有进行太多的操作,仅仅只是输出提示错误信息,然后干掉当前进程,同时关掉当前虚拟机.<br>同时由于Android的处理机制,此类异常关闭的Activity,会被系统重新创建并启动,但是启动的仅仅只是当前的崩溃的Activity,由于进程已经被干掉,所以之前在进程中的各种对象都是重新创建的,需要用到其他地方保存下来,或传递过来的值时,就会出现各种错误.导致一系列报错,体验感十分不佳.</p>
 <h2 id="自定义异常处理"><a href="#自定义异常处理" class="headerlink" title="自定义异常处理"></a>自定义异常处理</h2><p>首先我们要自己实现<strong>Thread.UncaughtExceptionHandler</strong>接口,尔后在<strong>Application</strong>中取代系统原来的.<br>为了给用户良好的体验,数据异常了,当前进程已经被暂停了,我们想恢复APP那么肯定就需要开一个新的进程把初始逻辑在从新走一遍.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public void uncaughtException(Thread thread, Throwable ex) &#123;</div><div class="line">    if (mCrashing) return;</div><div class="line">    mCrashing = false;</div><div class="line">    try &#123;</div><div class="line">        handleException(ex);</div><div class="line">        Thread.sleep(1000);</div><div class="line">    &#125; catch (InterruptedException e) &#123;</div><div class="line">        Log.e(TAG, &quot;error : &quot;, e);</div><div class="line">    &#125;</div><div class="line">    Intent intent = new Intent(mContext, SplashActivity.class);</div><div class="line">    PendingIntent restartIntent = PendingIntent.getActivity(mContext, 0, intent, Intent.FILL_IN_DATA);</div><div class="line">    AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);</div><div class="line">    mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent); // 1秒钟后重启应用</div><div class="line">    android.os.Process.killProcess(android.os.Process.myPid());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>处理方式很简单,在<code>handleException(ex)</code>中对异常信息进行本地化保存方便后续处理.核心就是使用<code>PendingIntent</code>和<code>AlarmManager</code>在进程被销毁之后重启APP流程.</p>
+<p>处理方式很简单,在<code>handleException(ex)</code>中对异常信息进行本地化保存方便后续处理.核心就是使用<code>PendingIntent</code>和<code>AlarmManager</code>在进程被销毁之后重启APP流程.<br>需要注意的<strong>在杀掉进程前需要把所有Activity关掉</strong>,不然系统会对Activity进行恢复,这过程中又出现异常就会导致重启流程被调用两次</p>
 <h3 id="小疑问关于重启进程"><a href="#小疑问关于重启进程" class="headerlink" title="小疑问关于重启进程"></a>小疑问关于重启进程</h3><p>通过PendingIntent 和 AlarmManager 可以重启进程.<br>那么 ContextImpl 和当前 进程 关系到底是怎样的,看相关APP启动分析都是说先启动进程,然后创建ContextImpl对象,那就是ContextImpl依赖于进程.<br>但是进程被销毁了,ContextImpl对象应该也就被销毁了,又是如何重新开启一个进程来运行APP的?</p>
 
       
@@ -381,6 +381,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/30/git操作/" rel="prev" title="git学习笔记">
+                git学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -471,7 +475,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -488,7 +492,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

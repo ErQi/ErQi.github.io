@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/13/小知识/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="各种平时碰到的零散知识点">
-<meta property="og:updated_time" content="2016-08-19T09:05:28.718Z">
+<meta property="og:updated_time" content="2016-08-30T09:12:13.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="各种小知识">
 <meta name="twitter:description" content="各种平时碰到的零散知识点">
@@ -316,8 +316,14 @@
 
       
         <p>各种平时碰到的零散知识点<br><a id="more"></a></p>
-<h1 id="Method-isBride"><a href="#Method-isBride" class="headerlink" title="Method.isBride()"></a>Method.isBride()</h1><p>该方法用于判断是否是桥接方法,诞生于1.5,作用判断此方法是否为桥接方法.<br>桥接方法:因为1.5引入了泛型,在声明的时候可以声明泛型,等到使用时在去指定,但是编辑器不能等到你使用再去编辑,所以有了桥接方法这个概念<br>代码示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">abstract class A&lt;T&gt; &#123;  </div><div class="line">    abstract T get(T t);  </div><div class="line">&#125;</div><div class="line">// 编辑器对应代码</div><div class="line">abstract class A &#123;  </div><div class="line">    abstract Object get(Object obj);  </div><div class="line">&#125;</div><div class="line">// 实现的具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125; </div><div class="line">// 编辑器的实现具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    //编译器添加的方法  </div><div class="line">    Object get(Object s) &#123;  </div><div class="line">        return (Object) get((String) s);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li><strong>Method.isBride()</strong><br>该方法用于判断是否是桥接方法,诞生于1.5,作用判断此方法是否为桥接方法.<br>桥接方法:因为1.5引入了泛型,在声明的时候可以声明泛型,等到使用时在去指定,但是编辑器不能等到你使用再去编辑,所以有了桥接方法这个概念<br>代码示例:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">abstract class A&lt;T&gt; &#123;  </div><div class="line">    abstract T get(T t);  </div><div class="line">&#125;</div><div class="line">// 编辑器对应代码</div><div class="line">abstract class A &#123;  </div><div class="line">    abstract Object get(Object obj);  </div><div class="line">&#125;</div><div class="line">// 实现的具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125; </div><div class="line">// 编辑器的实现具体类</div><div class="line">class B extends A &#123;  </div><div class="line">    //编译器添加的方法  </div><div class="line">    Object get(Object s) &#123;  </div><div class="line">        return (Object) get((String) s);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    String get(String s) &#123;  </div><div class="line">        return &quot;&quot;;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
 <p>其中第一个Object get(Objcet s)就是桥接方法了.</p>
+<ol>
+<li><strong>keepScreenOn</strong><br>在Activity中不想受到系统省电模式中15秒无操作自动熄屏的影响那么就可以使用keepScreenOn属性,在XML中直接设置为true即可.</li>
+</ol>
 
       
     </div>
@@ -471,7 +477,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -488,7 +494,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -528,7 +534,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Method-isBride"><span class="nav-number">1.</span> <span class="nav-text">Method.isBride()</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
