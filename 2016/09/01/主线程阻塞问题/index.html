@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="知识点," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="回过头来仔细思考,才发现曾经自以为的全是错的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？">
+<meta property="og:url" content="http://yoursite.com/2016/09/01/主线程阻塞问题/index.html">
+<meta property="og:site_name" content="ErQi">
+<meta property="og:description" content="回过头来仔细思考,才发现曾经自以为的全是错的">
+<meta property="og:updated_time" content="2016-09-01T08:32:22.799Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？">
+<meta name="twitter:description" content="回过头来仔细思考,才发现曾经自以为的全是错的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/01/主线程阻塞问题/"/>
+
+  <title> Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？ | ErQi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ErQi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-01T16:32:48+08:00" content="2016-09-01">
+              2016-09-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>回过头来仔细思考,才发现曾经自以为的全是错的<br><a id="more"></a></p>
+<h1 id="标题是伪命题"><a href="#标题是伪命题" class="headerlink" title="标题是伪命题"></a>标题是伪命题</h1><p><a href="http://www.zhihu.com/question/34652589" target="_blank" rel="external">参考资料  Android中为什么主线程不会因为Looper.loop()里的死循环卡死？ 知乎</a><br>之前对这个概念一直处于比较模糊的状态,也是一直被自己忽略了,认为可能涉及的东西过于复杂,所以不敢对自己问,为什么?<br>这两天状态不错,生活还是code比较有趣,简单而真实,所以曾经被忽略的问题不经意间又开始出现在脑海.<br>这个问题在我理解看来可以分为两个问题</p>
+<h1 id="为什么主线程需要阻塞"><a href="#为什么主线程需要阻塞" class="headerlink" title="为什么主线程需要阻塞"></a>为什么主线程需要阻塞</h1><h2 id="何谓主线程-和其他线程有什么不同之处"><a href="#何谓主线程-和其他线程有什么不同之处" class="headerlink" title="何谓主线程,和其他线程有什么不同之处"></a>何谓主线程,和其他线程有什么不同之处</h2><ul>
+<li>何谓主线程<br>主线程,通常称之为UI线程,也就是APP进程被创建的时候所处的线程,和其他的线程一样都是一个普通的线程.</li>
+<li>不同之处<br>从app角度来说,不同之处主要集中在UI界面更新上面,普通线程不能更新UI界面,如此设计也是为了程序的健壮性,毕竟不同线程同时对对象操作时为了保证其准确性都要进行加锁,而界面更新不能像对象那样仅仅保证准确性,还要保证其连贯性,一个按钮在同一段时间同步<code>(假同步)</code>发生了向左又向右的滑动自然是不可取的.</li>
+</ul>
+<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><p>一个进程或线程在CPU看来无非就是一段的可执行代码,代码执行完毕,线程的生命也就到头了.</p>
+<h2 id="APP的生命周期"><a href="#APP的生命周期" class="headerlink" title="APP的生命周期"></a>APP的生命周期</h2><p>从使用手机的角度来看,从点开APP图标开始,到完全退出APP结束.</p>
+<h2 id="主线程在哪里进行了阻塞"><a href="#主线程在哪里进行了阻塞" class="headerlink" title="主线程在哪里进行了阻塞"></a>主线程在哪里进行了阻塞</h2><p>我们知道APP的入口是在ActivityThread,一个Java类,有着main方法,而且main方法中的代码也不是很多.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;ActivityThreadMain&quot;);</div><div class="line">    SamplingProfilerIntegration.start();</div><div class="line"></div><div class="line">    // CloseGuard defaults to true and can be quite spammy.  We</div><div class="line">    // disable it here, but selectively enable it later (via</div><div class="line">    // StrictMode) on debug builds, but using DropBox, not logs.</div><div class="line">    CloseGuard.setEnabled(false);</div><div class="line"></div><div class="line">    Environment.initForCurrentUser();</div><div class="line"></div><div class="line">    // Set the reporter for event logging in libcore</div><div class="line">    EventLogger.setReporter(new EventLoggingReporter());</div><div class="line"></div><div class="line">    AndroidKeyStoreProvider.install();</div><div class="line"></div><div class="line">    // Make sure TrustedCertificateStore looks in the right place for CA certificates</div><div class="line">    final File configDir = Environment.getUserConfigDirectory(UserHandle.myUserId());</div><div class="line">    TrustedCertificateStore.setDefaultUserDirectory(configDir);</div><div class="line"></div><div class="line">    Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;);</div><div class="line"></div><div class="line">    Looper.prepareMainLooper();</div><div class="line"></div><div class="line">    ActivityThread thread = new ActivityThread();</div><div class="line">    thread.attach(false);</div><div class="line"></div><div class="line">    if (sMainThreadHandler == null) &#123;</div><div class="line">        sMainThreadHandler = thread.getHandler();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (false) &#123;</div><div class="line">        Looper.myLooper().setMessageLogging(new</div><div class="line">                LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // End of event ActivityThreadMain.</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</div><div class="line">    Looper.loop();</div><div class="line"></div><div class="line">    throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这就是main方法的全部代码了,23的源码.在其中Looper进行了初始化,但是并不是常规的prepare(),而是prepareMainLooper(),其实差别不大,只不过是给静态成员对象成员sMainLooper进行了初始化赋值,并不准予同进程中sMainLooper初始化第二次而已.<br>然后在代码末尾Looper.loop进行阻塞.</p>
+<h2 id="标题为什么是伪命题"><a href="#标题为什么是伪命题" class="headerlink" title="标题为什么是伪命题"></a>标题为什么是伪命题</h2><p>我们都知道主线程是随着APP的启动而启动,随着APP的结束而结束的<code>(多进程对应多主线程的情况我就将其看做一个统一的主线程)</code>.<br>APP要一直运行直到用户退出,那么主线程就必然不能代码运行完毕而终止,所以需要进行阻塞,直到用户退出了APP,才能停止阻塞,让CPU执行完剩下的代码,尔后代码执行完毕,主线程从而寿终正寝.</p>
+<h1 id="为什么主线程阻塞还能更新UI"><a href="#为什么主线程阻塞还能更新UI" class="headerlink" title="为什么主线程阻塞还能更新UI"></a>为什么主线程阻塞还能更新UI</h1><p>既然线程是在Looper中阻塞了,那么与Looper配合着出现的Handler肯定是少不了的.<br>至于Handler是如何进行线程切换<a href="http://erqi.github.io/2016/08/31/handler%E5%92%8CThread%E7%9A%84%E5%85%B3%E7%B3%BB" target="_blank" rel="external">不了解的同学请戳这</a></p>
+<h2 id="ActivityThread-H"><a href="#ActivityThread-H" class="headerlink" title="ActivityThread.H"></a>ActivityThread.H</h2><p>很容易就在Activity中找到了继承自Handler的内部类H,并且重写了handleMessage方法,代码就不列出了.</p>
+<h2 id="ActivityThread-H怎么和Looper交互的"><a href="#ActivityThread-H怎么和Looper交互的" class="headerlink" title="ActivityThread.H怎么和Looper交互的"></a>ActivityThread.H怎么和Looper交互的</h2><p>光有Handler是不行的,关键要有调用Handler的地方,然后Handler才能去处理,才会在主线程调用一个又一个方法.<br>答案在这!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ActivityThread thread = new ActivityThread();</div><div class="line">thread.attach(false);</div></pre></td></tr></table></figure></p>
+<p>进一步来看attach()方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">private void attach(boolean system) &#123;</div><div class="line">    ...</div><div class="line">    if (!system) &#123;</div><div class="line">        ...</div><div class="line">        final IActivityManager mgr = ActivityManagerNative.getDefault();</div><div class="line">        try &#123;</div><div class="line">            mgr.attachApplication(mAppThread);</div><div class="line">        &#125; catch (RemoteException ex) &#123;</div><div class="line">            // Ignore</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125; else &#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line"></div><div class="line">   ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>恩,想必你们都知道我想看什么了,这里传入了对象mAppThread,我只关心mAppThread对象,而他作为参数最终通过IPC传递到哪里去,能力有限就不再继续跟进了.</p>
+<h2 id="ApplicationThread"><a href="#ApplicationThread" class="headerlink" title="ApplicationThread"></a>ApplicationThread</h2><p>上面我们说到了mAppThread对象,那么这个对象是哪个对象呢?就是ApplicationThread的实例化对象,代码不多,也就500来行,我就截取一点点来示例一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">public final void schedulePauseActivity(IBinder token, boolean finished,</div><div class="line">        boolean userLeaving, int configChanges, boolean dontReport) &#123;</div><div class="line">    sendMessage(</div><div class="line">            finished ? H.PAUSE_ACTIVITY_FINISHING : H.PAUSE_ACTIVITY,</div><div class="line">            token,</div><div class="line">            (userLeaving ? 1 : 0) | (dontReport ? 2 : 0),</div><div class="line">            configChanges);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public final void scheduleStopActivity(IBinder token, boolean showWindow,</div><div class="line">        int configChanges) &#123;</div><div class="line">   sendMessage(</div><div class="line">        showWindow ? H.STOP_ACTIVITY_SHOW : H.STOP_ACTIVITY_HIDE,</div><div class="line">        token, 0, configChanges);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public final void scheduleCreateService(IBinder token,</div><div class="line">                                                ServiceInfo info, CompatibilityInfo compatInfo, int processState) &#123;</div><div class="line">    updateProcessState(processState, false);</div><div class="line">    CreateServiceData s = new CreateServiceData();</div><div class="line">    s.token = token;</div><div class="line">    s.info = info;</div><div class="line">    s.compatInfo = compatInfo;</div><div class="line"></div><div class="line">    sendMessage(H.CREATE_SERVICE, s);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public final void scheduleBindService(IBinder token, Intent intent,</div><div class="line">                                      boolean rebind, int processState) &#123;</div><div class="line">    updateProcessState(processState, false);</div><div class="line">    BindServiceData s = new BindServiceData();</div><div class="line">    s.token = token;</div><div class="line">    s.intent = intent;</div><div class="line">    s.rebind = rebind;</div><div class="line"></div><div class="line">    if (DEBUG_SERVICE)</div><div class="line">        Slog.v(TAG, &quot;scheduleBindService token=&quot; + token + &quot; intent=&quot; + intent + &quot; uid=&quot;</div><div class="line">                + Binder.getCallingUid() + &quot; pid=&quot; + Binder.getCallingPid());</div><div class="line">    sendMessage(H.BIND_SERVICE, s);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>聪明的同学已经明了,主线程阻塞之后生命周期等方法是如何启用的.<br>这一个个形似各种声明周期的方法,最终还调用了sendMessage()方法,让我们再来看看sendMessage方法的是怎么操作的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">private void sendMessage(int what, Object obj) &#123;</div><div class="line">    sendMessage(what, obj, 0, 0, false);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private void sendMessage(int what, Object obj, int arg1) &#123;</div><div class="line">    sendMessage(what, obj, arg1, 0, false);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private void sendMessage(int what, Object obj, int arg1, int arg2) &#123;</div><div class="line">    sendMessage(what, obj, arg1, arg2, false);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private void sendMessage(int what, Object obj, int arg1, int arg2, boolean async) &#123;</div><div class="line">    if (DEBUG_MESSAGES) Slog.v(</div><div class="line">        TAG, &quot;SCHEDULE &quot; + what + &quot; &quot; + mH.codeToString(what)</div><div class="line">        + &quot;: &quot; + arg1 + &quot; / &quot; + obj);</div><div class="line">    Message msg = Message.obtain();</div><div class="line">    msg.what = what;</div><div class="line">    msg.obj = obj;</div><div class="line">    msg.arg1 = arg1;</div><div class="line">    msg.arg2 = arg2;</div><div class="line">    if (async) &#123;</div><div class="line">        msg.setAsynchronous(true);</div><div class="line">    &#125;</div><div class="line">    mH.sendMessage(msg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到最终调用了mH.sendMessage()方法,而mH是谁呢?ActivityThread的成员变量是ActivityThread.H的实例化对象.</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到此想必各位也就明了,主线程确实是阻塞的,不阻塞那APP怎么能一直运行,所以说主线程阻塞是一个伪命题,只不过是没有弄明白既然阻塞了,为什么还能调用各种声明周期而已.<br>调用生命周期是因为有Looper,有MessageQueue,还有沟通的桥梁Handler,通过IPC机制调用Handler发送各种消息,保存到MessageQueue中,然后在主线程中的Looper提取了消息,并在主线程中调用Handler的方法去处理消息.最终完成各种声明周期.</p>
+<p>文章到此结束,顺便给自己打个小广告,深圳求职,目前在职招人顶缸中(ps:找个人顶缸真不好招…全是假简历)<br><a href="http://erqi.github.io/images/%E9%BD%90%E6%B6%9B.pdf" target="_blank" rel="external">简历戳我</a></p>
+<h2 id="扩展的知识点"><a href="#扩展的知识点" class="headerlink" title="扩展的知识点"></a>扩展的知识点</h2><p>IPC机制下的<a href="http://gityuan.com/2016/03/06/start-service/" target="_blank" rel="external">startService流程分析</a><br>为什么选择Binder<a href="https://www.zhihu.com/question/39440766/answer/89210950" target="_blank" rel="external">为什么 Android 要采用 Binder 作为 IPC 机制？</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="ErQi WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="ErQi Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/知识点/" rel="tag">#知识点</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/31/handler和Thread的关系/" rel="next" title="Handler与Thread的关系">
+                <i class="fa fa-chevron-left"></i> Handler与Thread的关系
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="ErQi" />
+          <p class="site-author-name" itemprop="name">ErQi</p>
+          <p class="site-description motion-element" itemprop="description">一个有强迫症兼五月病,导致无药可救的家伙..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ErQi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#标题是伪命题"><span class="nav-number">1.</span> <span class="nav-text">标题是伪命题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么主线程需要阻塞"><span class="nav-number">2.</span> <span class="nav-text">为什么主线程需要阻塞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#何谓主线程-和其他线程有什么不同之处"><span class="nav-number">2.1.</span> <span class="nav-text">何谓主线程,和其他线程有什么不同之处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的生命周期"><span class="nav-number">2.2.</span> <span class="nav-text">线程的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APP的生命周期"><span class="nav-number">2.3.</span> <span class="nav-text">APP的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程在哪里进行了阻塞"><span class="nav-number">2.4.</span> <span class="nav-text">主线程在哪里进行了阻塞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标题为什么是伪命题"><span class="nav-number">2.5.</span> <span class="nav-text">标题为什么是伪命题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么主线程阻塞还能更新UI"><span class="nav-number">3.</span> <span class="nav-text">为什么主线程阻塞还能更新UI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityThread-H"><span class="nav-number">3.1.</span> <span class="nav-text">ActivityThread.H</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ActivityThread-H怎么和Looper交互的"><span class="nav-number">3.2.</span> <span class="nav-text">ActivityThread.H怎么和Looper交互的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ApplicationThread"><span class="nav-number">3.3.</span> <span class="nav-text">ApplicationThread</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展的知识点"><span class="nav-number">4.1.</span> <span class="nav-text">扩展的知识点</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ErQi</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

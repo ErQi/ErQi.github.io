@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/08/31/handler和Thread的关系/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="去年为了面试而填鸭般的恶补一通,如今能回想起Handler的内部looper,message相关,却想不起如何与Thread相关联的了…">
-<meta property="og:updated_time" content="2016-08-31T10:49:59.188Z">
+<meta property="og:updated_time" content="2016-08-31T10:29:05.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Handler与Thread的关系">
 <meta name="twitter:description" content="去年为了面试而填鸭般的恶补一通,如今能回想起Handler的内部looper,message相关,却想不起如何与Thread相关联的了…">
@@ -340,7 +340,7 @@
 <p>可以看到就是一个任务而已,而handleCallback(msg)方法点进去再来看一看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private static void handleCallback(Message message) &#123;</div><div class="line">    message.callback.run();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>只是单纯的是运行这个任务而已,但是这个任务是哪里来的呢?<br>答案在Handler,Handler不仅可以发消息给自己在主线程处理,也可以直接发送一个任务去主线程运行.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public final boolean post(Runnable r)</div><div class="line">&#123;</div><div class="line">   return  sendMessageDelayed(getPostMessage(r), 0);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private static Message getPostMessage(Runnable r) &#123;</div><div class="line">    Message m = Message.obtain();</div><div class="line">    m.callback = r;</div><div class="line">    return m;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>到这里也就看明白了,剩下就和普通消息一样的处理方式了.</p>
-<p>文章到此结束,顺便给自己打个小广告,深圳求职,目前在职招人顶缸中(ps:找个人顶缸真不好招…全是假简历)<br><a href="../../../../images/齐涛.pdf">简历戳我</a></p>
+<p>文章到此结束,顺便给自己打个小广告,深圳求职,目前在职招人顶缸中(ps:找个人顶缸真不好招…全是假简历)<br>简历戳我!!</p>
 
       
     </div>
@@ -400,6 +400,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/01/主线程阻塞问题/" rel="prev" title="Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？">
+                Android中为什么主线程不会因为Looper.loop()里的死循环阻塞？ <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -490,7 +494,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
