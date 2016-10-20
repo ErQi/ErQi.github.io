@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="补智商," />
+  <meta name="keywords" content="Android Studio,源码," />
 
 
 
@@ -84,18 +84,21 @@
 
 
 
-<meta name="description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
+<meta name="description" content="小伙伴再也不用纠结如何查看源码了~">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView互相关联滚动">
-<meta property="og:url" content="http://yoursite.com/2016/08/13/多RecyclerView间关联滚动/index.html">
+<meta property="og:title" content="使用Android Studio方便的阅读Android源码">
+<meta property="og:url" content="http://yoursite.com/2016/06/20/使用Android Studio方便的阅读源码/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
-<meta property="og:image" content="http://yoursite.com/../../../../images/课程表.gif">
-<meta property="og:updated_time" content="2016-08-13T06:35:34.731Z">
+<meta property="og:description" content="小伙伴再也不用纠结如何查看源码了~">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/未编译.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/配置源码.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/阅读源码/编译完成.png">
+<meta property="og:updated_time" content="2016-08-13T06:35:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RecyclerView互相关联滚动">
-<meta name="twitter:description" content="曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!">
-<meta name="twitter:image" content="http://yoursite.com/../../../../images/课程表.gif">
+<meta name="twitter:title" content="使用Android Studio方便的阅读Android源码">
+<meta name="twitter:description" content="小伙伴再也不用纠结如何查看源码了~">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/阅读源码/sdk下载.png">
 
 
 
@@ -116,9 +119,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/13/多RecyclerView间关联滚动/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/06/20/使用Android Studio方便的阅读源码/"/>
 
-  <title> RecyclerView互相关联滚动 | ErQi </title>
+  <title> 使用Android Studio方便的阅读Android源码 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +261,7 @@
             
             
               
-                RecyclerView互相关联滚动
+                使用Android Studio方便的阅读Android源码
               
             
           </h1>
@@ -270,8 +273,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T14:46:48+08:00" content="2016-08-13">
-              2016-08-13
+            <time itemprop="dateCreated" datetime="2016-06-20T14:13:26+08:00" content="2016-06-20">
+              2016-06-20
             </time>
           </span>
 
@@ -284,8 +287,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/智商堪忧/" itemprop="url" rel="index">
-                    <span itemprop="name">智商堪忧</span>
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
                   </a>
                 </span>
 
@@ -317,29 +320,18 @@
       
 
       
-        <p>曾经被困扰过的双向互滚动的问题,赫然发现当时真是蠢!<br><a id="more"></a><br>有时会碰到布局里两三个列表数据相互关联,需要互相关联滚动(<code>具体实现处理方式不同,实现方式也就不同</code>).<br>例如课程表,将课程表上方的周几看做一个列表,下方的每天的对应数据看做一个列表,自然要求上下列表跟随滚动,如下图<br><img src="../../../../images/课程表.gif" alt="课程表示例"><br>上方的日期和下面的时间就是两个单独的列表.<br>单RecyclerView的监听很简单,直接在<code>OnScrollListener</code>回调方法里面调用另一个RecyclerView的<code>scrollBy</code>方法即可.<br>多RecyclerView直接调用就不行了,因为RecyclerView的<code>scrollBy</code>方法会触发<code>OnScrollListener</code>的回调,这样就陷入了相互回调地狱.<br>解决示例:</p>
-<pre><code>mView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        mScroll1 = true;
-        if (!mScroll2) {
-            mView1.scrollBy(dx, dy);
-        }
-        mScroll1 = false;
-    }
-});
+        <p>小伙伴再也不用纠结如何查看源码了~<br><a id="more"></a></p>
+<ul>
+<li>准备工作<ol>
+<li>工具 <strong>Android Studio</strong><br>自行翻墙至<a href="https://developer.android.com/intl/zh-cn/sdk/index.html" target="_blank" rel="external">官网下载</a>,或者<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">androiddevtools</a>,安装过程就不在复述了,网上教程大把.</li>
+<li>源码<br>源码直接使用SDK Manager打开下载即可示例图.<br><img src="../../../../images/阅读源码/sdk下载.png" alt="源码下载"><br>下载完成之后再SDK目录下sources文件夹里即可找到对应的源码.</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>导入阅读<br>  直接将源码根目录作为项目导入,这时由于没有相关配置文件,导入的源码并不能被编译,都是作为普通的文件存在,自然语法高亮,跳转等方便的操作均无法实现.<br>  <img src="../../../../images/阅读源码/未编译.png" alt="未编译"><br>  这时候需要到项目视图窗口,切换到项目视图,然后右键-&gt;F4 打开项目设置,修改属性为sources,然后应用,<br>  <img src="../../../../images/阅读源码/配置源码.png" alt="配置"><br>  这时候就可以愉快的查看源码了.<br>  <img src="../../../../images/阅读源码/编译完成.png" alt="编译完成"></li>
+</ul>
 
-mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        mScroll2 = true;
-        if (!mScroll1) {
-            mView2.scrollBy(dx, dy);
-        }
-        mScroll2 = false;
-    }
-});
-</code></pre><h4 id="当初都没想到…可见我曾经智力多低"><a href="#当初都没想到…可见我曾经智力多低" class="headerlink" title="当初都没想到…可见我曾经智力多低"></a>当初都没想到…可见我曾经智力多低</h4>
       
     </div>
 
@@ -382,7 +374,9 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
       
         <div class="post-tags">
           
-            <a href="/tags/补智商/" rel="tag">#补智商</a>
+            <a href="/tags/Android-Studio/" rel="tag">#Android Studio</a>
+          
+            <a href="/tags/源码/" rel="tag">#源码</a>
           
         </div>
       
@@ -391,16 +385,12 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/13/上传库至bintray/" rel="next" title="上传library到公共的jcenter仓库">
-                <i class="fa fa-chevron-left"></i> 上传library到公共的jcenter仓库
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/13/小知识/" rel="prev" title="各种小知识">
-                各种小知识 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/07/19/FlexboxLayout初探/" rel="prev" title="FlexboxLayout初探">
+                FlexboxLayout初探 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -549,7 +539,7 @@ mView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#当初都没想到…可见我曾经智力多低"><span class="nav-number">1.</span> <span class="nav-text">当初都没想到…可见我曾经智力多低</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
