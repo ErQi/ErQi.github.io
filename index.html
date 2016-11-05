@@ -259,7 +259,7 @@
               
                 
                 <a class="post-title-link" href="/2016/11/04/大话数据结构/" itemprop="url">
-                  未命名
+                  大话数据结构笔记
                 </a>
               
             
@@ -277,6 +277,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/值得一读/" itemprop="url" rel="index">
+                    <span itemprop="name">值得一读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -301,19 +320,12 @@
 
       
         
-          
-            <h2 id="KMP匹配算法"><a href="#KMP匹配算法" class="headerlink" title="KMP匹配算法"></a>KMP匹配算法</h2><p>用于数据的模式化匹配算法,称之为<strong>克努特-莫里斯-普拉特算法</strong>,简称为KMP算法<br><img src="../../../../images/KMP公式.jpg" alt="KMP图片"></p>
-<p>在数据匹配之前,先对自身数据进行重复划分.确定数据自身的重复位置,便于对数据进行匹配</p>
-<p>基本伪代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public int[] getKMP(String str) &#123;</div><div class="line">    int i = 0;</div><div class="line">    int j = -1;</div><div class="line">    int[] kmp = new int[str.length()];</div><div class="line">    kmp[0] = -1;</div><div class="line">    while (i &lt; str.length()-1) &#123;</div><div class="line">        if (j == -1 ||  str.substring(i, i+1).equals(str.substring(j, j + 1)) ) &#123;</div><div class="line">            ++i;</div><div class="line">            ++j;</div><div class="line">            kmp[i] = j;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = kmp[j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return kmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong> 未理解点 j = kmp[j] </strong>,为什么不是j–,尽管这样效率更高,但是只知道这样可行,还为理解为什么这样可行.</p>
-<blockquote>
-<p>理解思路：因为如果是j– 那就意味着最后一位要与之前一位相同,例如abcabcdb,当判断到d的时候j=3 这时候j–毫无意义,因为之前的不可能相同,所以这时候采用了kmp[j],拿到前面的重复指数,然后在进行对比.</p>
-</blockquote>
-<ul>
-<li>前面的可以理解,但是下面的kmp[j],真是思考了很久.</li>
-</ul>
-
-          
+          <p>大话数据结构的一些读书笔记<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/04/大话数据结构/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -874,7 +886,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
