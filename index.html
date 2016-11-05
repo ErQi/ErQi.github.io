@@ -258,6 +258,109 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/04/大话数据结构/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-04T23:25:39+08:00" content="2016-11-04">
+              2016-11-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="KMP匹配算法"><a href="#KMP匹配算法" class="headerlink" title="KMP匹配算法"></a>KMP匹配算法</h2><p>用于数据的模式化匹配算法,称之为<strong>克努特-莫里斯-普拉特算法</strong>,简称为KMP算法<br><img src="../../../../images/KMP公式.jpg" alt="KMP图片"></p>
+<p>在数据匹配之前,先对自身数据进行重复划分.确定数据自身的重复位置,便于对数据进行匹配</p>
+<p>基本伪代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public int[] getKMP(String str) &#123;</div><div class="line">    int i = 0;</div><div class="line">    int j = -1;</div><div class="line">    int[] kmp = new int[str.length()];</div><div class="line">    kmp[0] = -1;</div><div class="line">    while (i &lt; str.length()-1) &#123;</div><div class="line">        if (j == -1 ||  str.substring(i, i+1).equals(str.substring(j, j + 1)) ) &#123;</div><div class="line">            ++i;</div><div class="line">            ++j;</div><div class="line">            kmp[i] = j;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = kmp[j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return kmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong> 未理解点 j = kmp[j] </strong>,为什么不是j–,尽管这样效率更高,但是只知道这样可行,还为理解为什么这样可行.</p>
+<blockquote>
+<p>理解思路：因为如果是j– 那就意味着最后一位要与之前一位相同,例如abcabcdb,当判断到d的时候j=3 这时候j–毫无意义,因为之前的不可能相同,所以这时候采用了kmp[j],拿到前面的重复指数,然后在进行对比.</p>
+</blockquote>
+<ul>
+<li>前面的可以理解,但是下面的kmp[j],真是思考了很久.</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/04/拖延症/" itemprop="url">
                   拖延心理学
                 </a>
@@ -709,121 +812,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/25/APP崩溃处理/" itemprop="url">
-                  APP崩溃处理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-25T14:08:48+08:00" content="2016-08-25">
-              2016-08-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/性能优化/" itemprop="url" rel="index">
-                    <span itemprop="name">性能优化</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>解决APP出现异常崩溃,尔后而系统重启,导致一系列的空值问题<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/25/APP崩溃处理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -869,7 +857,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
