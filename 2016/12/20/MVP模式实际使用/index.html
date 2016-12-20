@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/12/20/MVP模式实际使用/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="MVP一直想学习,奈何上班时间紧,离职之后抑郁又爆发,现在算是勉强回复了点状态了吧.">
-<meta property="og:updated_time" content="2016-12-20T06:54:10.317Z">
+<meta property="og:updated_time" content="2016-12-20T13:59:12.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MVP模式实战">
 <meta name="twitter:description" content="MVP一直想学习,奈何上班时间紧,离职之后抑郁又爆发,现在算是勉强回复了点状态了吧.">
@@ -356,7 +356,25 @@
 <li>例如项目中的:<br><strong>ISwipeRefreshView</strong><br>方法很明显的体现了该View的功能,显示影藏刷新,以及错误提示.<br><strong>IMainView</strong><br>中的方法也挺简单,填充数据,添加数据,没有更多数据,以及一个更新日志,就没了.</li>
 </ul>
 <h2 id="Model的数据交互"><a href="#Model的数据交互" class="headerlink" title="Model的数据交互"></a>Model的数据交互</h2><p>Mode层来控制数据的获取,只关心数据的获取,由Persenter控制其返回结果,来与View进行交互.</p>
-<h2 id="Presenter的交互控制取舍"><a href="#Presenter的交互控制取舍" class="headerlink" title="Presenter的交互控制取舍"></a>Presenter的交互控制取舍</h2><p>Presenter负责所有的逻辑控制,是项目的核心,控制Model和View的交互处理,线程切换等等.<br>通常来说Activity只负责View的展示功能,所有交互都放到Presenter里进行处理,但是View同时负责了处理用户交互操作,必然就要处理一些交互处理.<br>处理方式是在Activity中调用Presenter处理?<br>个人感觉不合适,既然要分离,那么久彻底分离,回调去让Presenter去实现,让Presenter内部去负责处理,Activity不关心.</p>
+<h2 id="Presenter的交互控制取舍"><a href="#Presenter的交互控制取舍" class="headerlink" title="Presenter的交互控制取舍"></a>Presenter的交互控制取舍</h2><p>Presenter负责所有的逻辑控制,是项目的核心,控制Model和View的交互处理,线程切换等等.<br>通常来说Activity只负责View的展示功能,所有交互都放到Presenter里进行处理,但是View同时负责了处理用户交互操作,必然就要处理一些交互处理.<br>处理方式是在Activity中调用Presenter处理?<br>个人感觉不合适,既然要分离,那么就彻底分离,回调去让Presenter去实现,让Presenter内部去负责处理,Activity不关心.</p>
+<h1 id="谷歌的MVP实现"><a href="#谷歌的MVP实现" class="headerlink" title="谷歌的MVP实现"></a>谷歌的MVP实现</h1><p><a href="https://github.com/googlesamples/android-architecture/tree/master" target="_blank" rel="external">谷歌的项目</a></p>
+<h2 id="MVP的写法"><a href="#MVP的写法" class="headerlink" title="MVP的写法"></a>MVP的写法</h2><p>相对于常见的MVP模式多了一个Contract,Contract是一个接口类,类中只有View和Presenter两个接口.<br>这种写法将要配对使用的View Presenter写在了一起,可读性很好.</p>
+<h2 id="项目的分包"><a href="#项目的分包" class="headerlink" title="项目的分包"></a>项目的分包</h2><p>项目的分包一直没有一个统一的标准,这里比较喜欢谷歌的分包方法,将Activity功能明确,按照功能来分包,包下包含功能的Activity,使用到的Contract,Presenter等.</p>
+<h2 id="Model层的划分"><a href="#Model层的划分" class="headerlink" title="Model层的划分"></a>Model层的划分</h2><p>项目中的Model层独立出来了,并做了本地和模拟远程两种处理方式,通过TasksRepository来进行统一的管理,本地 远程 和管理的Repository统统继承了TasksDataSource接口,来实现对数据的获取保存等操作.<br>在Repository中进行网络获取和本地获取的判断处理.同时进行本地化的保存.</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在谷歌方案中View和Presenter是处于同一包下的,而Model是单独在data包下的,在项目中只有一种类型的Model,但是在项目中个模块的划分自然也带来不同的Model类型,通常Model和Presenter关系一对多,多对一都是由可能的,所以Model需要进行功能的细分.</p>
+<h1 id="MVP的实战"><a href="#MVP的实战" class="headerlink" title="MVP的实战"></a>MVP的实战</h1><p>利用之前做过的<a href="https://github.com/ryanhoo/Android-Proficiency-Exercise" target="_blank" rel="external">一个题目</a>推倒重做.</p>
+<h2 id="Presenter的取舍"><a href="#Presenter的取舍" class="headerlink" title="Presenter的取舍"></a>Presenter的取舍</h2><ul>
+<li><p>问题:<br>在项目中的界面,主要的内容展示是ViewPager,那么Presenter在主页面中是否存在,内容主要在ViewPager中主界面可以说只是一个壳子,操作全在ViewPager中</p>
+</li>
+<li><p>结果:<br><del>~想按照MVP的模式来进行,界面中也对应指定的Presenter但是,这个Presenter是在不知道怎么写,毕竟首页就只是一个ViewPager和Adapter,不知道怎么插入Presenter</del>~<br>主界面的Activity只是一个壳子,没有操作,即不需要对应的P和V.</p>
+</li>
+</ul>
+<h2 id="Presenter的划分"><a href="#Presenter的划分" class="headerlink" title="Presenter的划分"></a>Presenter的划分</h2><ul>
+<li><p>问题:<br>在我的理解中逻辑操作尽量的交给Presenter,那么那些自成一体的控件,如RecyclerView有自己的Adapter形成了一个小循环,Presenter是否需要插入其中,如何插入其中,变为一个成功的小三?</p>
+</li>
+<li><p>结果:<br>从谷歌的项目分析来看,Presenter不需要插入其中,但是内部的相应操作(例如点击等)需要通过接口的方式来交给Presenter来进行处理.</p>
+</li>
+</ul>
 
       
     </div>
@@ -555,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MVP的理解"><span class="nav-number">1.</span> <span class="nav-text">MVP的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View的基本功能"><span class="nav-number">1.1.</span> <span class="nav-text">View的基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model的数据交互"><span class="nav-number">1.2.</span> <span class="nav-text">Model的数据交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter的交互控制取舍"><span class="nav-number">1.3.</span> <span class="nav-text">Presenter的交互控制取舍</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MVP的理解"><span class="nav-number">1.</span> <span class="nav-text">MVP的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View的基本功能"><span class="nav-number">1.1.</span> <span class="nav-text">View的基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model的数据交互"><span class="nav-number">1.2.</span> <span class="nav-text">Model的数据交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter的交互控制取舍"><span class="nav-number">1.3.</span> <span class="nav-text">Presenter的交互控制取舍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#谷歌的MVP实现"><span class="nav-number">2.</span> <span class="nav-text">谷歌的MVP实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MVP的写法"><span class="nav-number">2.1.</span> <span class="nav-text">MVP的写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目的分包"><span class="nav-number">2.2.</span> <span class="nav-text">项目的分包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model层的划分"><span class="nav-number">2.3.</span> <span class="nav-text">Model层的划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MVP的实战"><span class="nav-number">3.</span> <span class="nav-text">MVP的实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter的取舍"><span class="nav-number">3.1.</span> <span class="nav-text">Presenter的取舍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presenter的划分"><span class="nav-number">3.2.</span> <span class="nav-text">Presenter的划分</span></a></li></ol></li></ol></div>
             
 
           </div>
