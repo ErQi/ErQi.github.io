@@ -1,0 +1,827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="知识点,笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="笔记~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="金融主权博弈">
+<meta property="og:url" content="http://yoursite.com/2017/01/12/金融主权博弈/index.html">
+<meta property="og:site_name" content="ErQi">
+<meta property="og:description" content="笔记~">
+<meta property="og:image" content="https://pic1.zhimg.com/4543e7f4b28f36f9c2a493730574172c_b.png">
+<meta property="og:image" content="https://pic4.zhimg.com/58576cc8621fec9a4d3528c87b3a002b_b.png">
+<meta property="og:image" content="http://imgsrc.baidu.com/forum/w%3D580/sign=240dbd705b82b2b7a79f39cc01accb0a/8264b2b7d0a20cf4b4e4dbab74094b36adaf99b0.jpg">
+<meta property="og:updated_time" content="2017-01-12T01:13:11.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="金融主权博弈">
+<meta name="twitter:description" content="笔记~">
+<meta name="twitter:image" content="https://pic1.zhimg.com/4543e7f4b28f36f9c2a493730574172c_b.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/12/金融主权博弈/"/>
+
+
+
+
+
+  <title> 金融主权博弈 | ErQi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ErQi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/金融主权博弈/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ErQi">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/default_avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ErQi">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ErQi" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                金融主权博弈
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-12T00:15:52+08:00">
+                2017-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/金融/" itemprop="url" rel="index">
+                    <span itemprop="name">金融</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>笔记~<br><a id="more"></a></p>
+<p>引用视频<a href="http://www.bilibili.com/video/av7673851/" target="_blank" rel="external">张捷：国际金融对抗(第二课)</a></p>
+<h1 id="海权陆权之争"><a href="#海权陆权之争" class="headerlink" title="海权陆权之争"></a>海权陆权之争</h1><p>随着中国的发展,提出了新陆权的思路,并在逐渐挑战海权的霸主地位.</p>
+<h2 id="海权"><a href="#海权" class="headerlink" title="海权"></a>海权</h2><p>海运的成本极低,建立全球贸易物流系统,这是以前海权占优的原因.</p>
+<h2 id="陆权"><a href="#陆权" class="headerlink" title="陆权"></a>陆权</h2><p>陆权在新中国出现蓬勃的发展,并挑战海权的霸主地位,注意体现下如下几方面</p>
+<h3 id="人流"><a href="#人流" class="headerlink" title="人流"></a>人流</h3><p>随着高铁的网络连通,解决了人流问题,想必海运占有相当大优势.</p>
+<h3 id="信息流"><a href="#信息流" class="headerlink" title="信息流"></a>信息流</h3><p>随着服务行业的兴起,信息流需求增加各式各样的新闻资讯,陆地上连通信息流成本比海底铺电缆更有优势.</p>
+<h3 id="能源流"><a href="#能源流" class="headerlink" title="能源流"></a>能源流</h3><p>在陆上石油等想必海运轮船不占劣势,但是电网之类占据绝对优势.</p>
+<p>丝绸之路上中国,俄罗斯,伊朗德国等,若建立起成功的陆权体系,就能不再受制于依靠海权制霸世界的美国.这就是陆权海权的博弈</p>
+<h2 id="绿色经济和信息经济之争"><a href="#绿色经济和信息经济之争" class="headerlink" title="绿色经济和信息经济之争"></a>绿色经济和信息经济之争</h2><p>绿色经济强调节能减排,环保,克制降低资源消耗.<br>信息经济强调</p>
+<h2 id="绿色经济"><a href="#绿色经济" class="headerlink" title="绿色经济"></a>绿色经济</h2><p>克制自身的欲望</p>
+<h2 id="信息经济"><a href="#信息经济" class="headerlink" title="信息经济"></a>信息经济</h2><p>发挥自身的欲望</p>
+<h3 id="中国崛起的原因"><a href="#中国崛起的原因" class="headerlink" title="中国崛起的原因"></a>中国崛起的原因</h3><p>中国崛起正是因为信息经济,带来的国家管理成本的大幅下降,通信,网络,计算机,数据库等等带来的效率的绝对提升,许多之前无力管控方面也能开始通过网络整合规划.<br>社会总效益 = 规模效益 x 管理效益,在信息时代带来的关系效益大幅提升,对应的社会总效益提升,也就是中国崛起的原因.</p>
+<h4 id="拓展管理效益与世界兴衰"><a href="#拓展管理效益与世界兴衰" class="headerlink" title="拓展管理效益与世界兴衰"></a><strong>拓展</strong>管理效益与世界兴衰</h4><ul>
+<li><p>大国的解体<br>20世纪英帝国的解体,苏联的解体很大程度上都是管理效益太低,最终导致解体,崛起的是管理效益更高的资本团体.</p>
+</li>
+<li><p>大国的崛起<br>在信息时代的今天,管理效益的大幅提升带来的是有更大规模效益的大国的崛起.其代表就是金砖四国</p>
+</li>
+</ul>
+<p>信息经济主导的时代,提倡的是多消费,享受生活,对应的消耗更多的资源.这样与资源匮乏的环保经济形成了博弈.</p>
+<h1 id="制造国-资源国-金融国之争"><a href="#制造国-资源国-金融国之争" class="headerlink" title="制造国,资源国,金融国之争"></a>制造国,资源国,金融国之争</h1><p>为了遏制其他国家发展,例如使用印钞,利率等遏制制造国发展,但是也会使资源价格提高,资源国得到发展,这是一个多方的博弈.</p>
+<h2 id="制造国"><a href="#制造国" class="headerlink" title="制造国"></a>制造国</h2><p>制造国代表中国</p>
+<h2 id="资源国"><a href="#资源国" class="headerlink" title="资源国"></a>资源国</h2><p>资源国代表俄罗斯,沙特</p>
+<h2 id="金融国"><a href="#金融国" class="headerlink" title="金融国"></a>金融国</h2><p>金融国代表美国</p>
+<h1 id="印钞权和征税权之争"><a href="#印钞权和征税权之争" class="headerlink" title="印钞权和征税权之争"></a>印钞权和征税权之争</h1><p>略.没太搞懂.争在哪..</p>
+<h2 id="征税权"><a href="#征税权" class="headerlink" title="征税权"></a>征税权</h2><p>增值税17%在国内是可以来回抵扣,而在国外是不存在抵扣的,等于强行征收出口国的GDP.而且出口还有相关出口退税.</p>
+<h3 id="GDP和GNP"><a href="#GDP和GNP" class="headerlink" title="GDP和GNP"></a>GDP和GNP</h3><h4 id="GDP"><a href="#GDP" class="headerlink" title="GDP"></a>GDP</h4><p>GDP对应征税权.</p>
+<h4 id="GNP"><a href="#GNP" class="headerlink" title="GNP"></a>GNP</h4><p>GNP对应所得税.西方大量在中国建厂最终GDP要被中国增值税征收部分.</p>
+<h1 id="社保体系的压力"><a href="#社保体系的压力" class="headerlink" title="社保体系的压力"></a>社保体系的压力</h1><p>中国持有美债总体的8%,大部分还是美国国内持有.社保体系持有60%的美债,在美债利率走低的情况下,美国的社保体系维系艰难.</p>
+<h1 id="中国的现状"><a href="#中国的现状" class="headerlink" title="中国的现状"></a>中国的现状</h1><h2 id="十八大的中央集权"><a href="#十八大的中央集权" class="headerlink" title="十八大的中央集权"></a>十八大的中央集权</h2><h2 id="三省六部制的出现"><a href="#三省六部制的出现" class="headerlink" title="三省六部制的出现"></a>三省六部制的出现</h2><ul>
+<li>中书省<blockquote>
+<p>改开小组</p>
+</blockquote>
+</li>
+<li>门下省<blockquote>
+<p>人大</p>
+</blockquote>
+</li>
+<li>尚书省<blockquote>
+<p>国务院</p>
+</blockquote>
+</li>
+</ul>
+<p>体现了中国过去实现的职权分离.领导小组有权无职.</p>
+<h2 id="军权不是核心"><a href="#军权不是核心" class="headerlink" title="军权不是核心"></a>军权不是核心</h2><p>最有权的不是军队,而是植根于军队,植根于政体的情报组织,类似于明朝锦衣卫,东西厂.</p>
+<h2 id="枉法和贪污问题"><a href="#枉法和贪污问题" class="headerlink" title="枉法和贪污问题"></a>枉法和贪污问题</h2><h3 id="枉法惩治程度不够"><a href="#枉法惩治程度不够" class="headerlink" title="枉法惩治程度不够"></a>枉法惩治程度不够</h3><p>古:令不出宫门</p>
+<blockquote>
+<p>欺君之罪,大不敬之罪.<br>今:令不出中南海<br>撤职了事.</p>
+</blockquote>
+<h3 id="枉法和贪污关系"><a href="#枉法和贪污关系" class="headerlink" title="枉法和贪污关系"></a>枉法和贪污关系</h3><p>枉法调查成本低,在枉法处罚重时,贪污很难成行.代表:文革时期<br>贪污在中纪委双规调查前,没证据,无罪推定.基本没事.</p>
+<h1 id="政权的认识"><a href="#政权的认识" class="headerlink" title="政权的认识"></a>政权的认识</h1><h2 id="国家的本质是什么"><a href="#国家的本质是什么" class="headerlink" title="国家的本质是什么"></a>国家的本质是什么</h2><h3 id="什么是国家"><a href="#什么是国家" class="headerlink" title="什么是国家"></a>什么是国家</h3><p>国家是所有人私有财产法权的体现.<br>私有产才和其他所有的权利来自于国家的法律体系的保障.<br>法律体系的基石是国家的存在,和公民权.</p>
+<h3 id="拓展台湾问题的复杂性"><a href="#拓展台湾问题的复杂性" class="headerlink" title="拓展台湾问题的复杂性"></a><strong>拓展</strong>台湾问题的复杂性</h3><p>台湾发了全中国的产权证,且一直认为合法,有效,可转让,可交易.<br>切产权证大量发给了美国人,法国人,英国人,美国是明确承认其有效性的.<br>在中国各地租界收回时,仅收回了主权.且中美建交时,保留和台湾的商务关系,即各种产权.</p>
+<h2 id="多党制的黑暗"><a href="#多党制的黑暗" class="headerlink" title="多党制的黑暗"></a>多党制的黑暗</h2><ul>
+<li>多党制的背后永远是替换代理人,而不是其统治者.</li>
+<li>多党制的党务是不公开的,高于国家的.<blockquote>
+<p>西方官员公开财产,类比为中国财产公示,中国官员财产公示,但是党员不公示,党务不公示,党内活动不公示.<br>且西方对党员的道德没有要求</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="治国与权术"><a href="#治国与权术" class="headerlink" title="治国与权术"></a>治国与权术</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">　　宇文泰向苏绰讨教治国之道，二人密谈了三日三夜。</div><div class="line"></div><div class="line">　　宇文泰问：“国何以立？”</div><div class="line"></div><div class="line">　　苏绰答：“具官。”</div><div class="line"></div><div class="line">　　宇文泰问：“如何具官？”</div><div class="line"></div><div class="line">　　苏绰答：“用贪官，反贪官。”</div><div class="line"></div><div class="line">　　宇文泰不解的问：“为什么要用贪官？”</div><div class="line"></div><div class="line">　　苏绰答：“你要想叫别人为你卖命，就必须给人家好处。而你又没有那么多钱给他们，那就给他权，叫他用手中的权去搜刮民脂民膏，他不就得到好处了吗？”</div><div class="line"></div><div class="line">　　宇文泰问：“贪官用我给的权得到了好处，又会给我带来什么好处？”</div><div class="line"></div><div class="line">　　苏绰答：“因为他能得到好处是因为你给的权，所以，他为了保住自己的好处就必须维护你的权。那么，你的统治不就牢固了吗。你要知道皇帝人人想坐，如果没有贪官维护你的政权，那么你还怎么巩固统治？”</div><div class="line"></div><div class="line">　　宇文泰恍然大悟，接着不解的问道：“既然用了贪官，为什么还要反呢？”</div><div class="line"></div><div class="line">　　苏绰答：“这就是权术的精髓所在。要用贪官，就必须反贪官。只有这样才能欺骗民众，才能巩固政权。”</div><div class="line"></div><div class="line">　　宇文泰闻听此语大惑，兴奋不已的说：“爱卿快说说其中的奥秘。”</div><div class="line"></div><div class="line">　　苏绰答：“这有两个好处：其一、天下哪有不贪的官？官不怕贪，怕的是不听你的话。以反贪官为名，消除不听你话的贪官，保留听你话的贪官。这样既可以消除异己，巩固你的权力，又可以得到人民对你的拥戴。其二、官吏只要贪墨，他的把柄就在你的手中。他敢背叛你，你就以贪墨为借口灭了他。贪官怕你灭了他，就只有乖乖听你的话。所以，‘反贪官 ’是你用来驾御贪官的法宝。如果你不用贪官，你就失去了‘反贪官’这个法宝，那么你还怎么驾御官吏？如果人人皆是清官，深得人民拥戴，他不听话，你没有借口除掉他;即使硬去除掉，也会引来民情骚动。所以必须用贪官，你才可以清理官僚队伍，使其成为清一色的拥护你的人。”</div><div class="line"></div><div class="line">　　他又对宇文泰说：“还有呢。”</div><div class="line"></div><div class="line">　　宇文泰瞪圆了眼问： “还有什么？”</div><div class="line"></div><div class="line">　　苏绰问：“如果你用贪官而招惹民怨怎么办？”</div><div class="line"></div><div class="line">　　宇文泰一惊，这却没有想到，便问：“有何妙计可除此患？”</div><div class="line"></div><div class="line">　　苏绰答：“祭起反贪大旗，加大宣传力度，证明你心系黎民。让民众误认为你是好的，而不好的是那些官吏，把责任都推到这些他们的身上，千万不要让民众认为你是任用贪官的元凶。你必须叫民众认为，你是好的。社会出现这么多问题，不是你不想搞好，而是下面的官吏不好好执行你的命令!”。</div></pre></td></tr></table></figure>
+<h3 id="贪官治国为何不可行"><a href="#贪官治国为何不可行" class="headerlink" title="贪官治国为何不可行"></a>贪官治国为何不可行</h3><ul>
+<li>司法系统<br>用贪官制贪官首先需要一个绝对忠诚的司法系统,在大量使用贪官,司法系统不贪,毫无可能.<br>用贪官的例子有 萧何 陈平,但是两人都是统治者,并非官吏.是对自己忠诚.</li>
+</ul>
+<ul>
+<li>识人有限<br>用贪官需要对人熟悉,在作为治国的政权层级太多,对下面人不熟悉何来把柄一说.<br>只存在于小部门,人员有限,相互了解,往治国上套行不通.</li>
+</ul>
+<h2 id="美国的建国史"><a href="#美国的建国史" class="headerlink" title="美国的建国史"></a>美国的建国史</h2><ul>
+<li>东印度公司旗帜<br><img src="https://pic1.zhimg.com/4543e7f4b28f36f9c2a493730574172c_b.png" alt=""></li>
+<li>美国独立战争初期旗帜<br><img src="https://pic4.zhimg.com/58576cc8621fec9a4d3528c87b3a002b_b.png" alt=""><br>美国建国时间是英国把东印度公司国有不久,其实美国一直是一个资本集团控制国家.</li>
+</ul>
+<h2 id="朝鲜的问题"><a href="#朝鲜的问题" class="headerlink" title="朝鲜的问题"></a>朝鲜的问题</h2><p>从中国的历史来开,暴虐的君王从不过二代,如秦始皇,如杨广,但朝鲜被用户三代,远不是那么简单.<br>朝鲜曾和美国提在开罗宣言,和波茨坦公告得到尊重的条件下,南北朝鲜举行大选,决定朝鲜的命运.<br>但是中,韩,美均不同意.</p>
+<ul>
+<li><p>朝鲜的党旗<br><img src="http://imgsrc.baidu.com/forum/w%3D580/sign=240dbd705b82b2b7a79f39cc01accb0a/8264b2b7d0a20cf4b4e4dbab74094b36adaf99b0.jpg" alt=""><br>不同于中国,在金日成上台初期是大赦知识分子,后期主持卫星发射的科学家被封为次帅,在那是金正恩是大将.<br>科学家的地位不同于中国,科学家在朝鲜地位更高.</p>
+</li>
+<li><p>金家的家室<br>视频43分钟处,没有相关图片,介绍是金日成曾祖父是李朝(<code>朝鲜王朝（1392年—1910年），又称李氏朝鲜，简称李朝，是朝鲜半岛历史上最后一个统一王朝</code>)的大将军,被日本兼并之后曾祖父当时就抵抗日本人还包裹金日成父亲这一代人.<br>从这里说明北朝鲜这一代人是李朝贵族后代,并不是普通人.</p>
+</li>
+</ul>
+<p>南朝鲜是日占时期维持治安的警察等,后再美国的支持下建国,俗称日伪集团,这也是朝鲜为什么要求南北大选的原因,因为朝鲜占有合法性,在尊重开罗宣言,波兹坦公告情况下,南韩没有合法性.</p>
+<p>这也是朝鲜大赦文人集团的原因,李朝皇帝被日本劫走,并且没有后代,而作为大将军并且抵抗过日本的金家就具有天然的合法性.</p>
+<h2 id="枪杆子里出政权"><a href="#枪杆子里出政权" class="headerlink" title="枪杆子里出政权"></a>枪杆子里出政权</h2><p>枪杆子里是出不了政权的,这句话的口号是为了找合法性.<br>真实历史上是天下可以马上得之,不可以马上治之.</p>
+<h2 id="得名心者得天下"><a href="#得名心者得天下" class="headerlink" title="得名心者得天下"></a>得名心者得天下</h2><p>的民信者得天下,中国历史上只有让民信天子了才能得天下,例如:<code>刘邦斩白蛇</code>,<code>大楚兴，陈胜王</code>,在古代讲究真命天子,讲祥瑞,灾害是不能随便讲的.</p>
+<h3 id="华夷之辩"><a href="#华夷之辩" class="headerlink" title="华夷之辩"></a>华夷之辩</h3><p>尊礼为华,不尊礼为夷,礼排第一位为孝,不孝之人为夷.</p>
+<h3 id="袁世凯称帝背景"><a href="#袁世凯称帝背景" class="headerlink" title="袁世凯称帝背景"></a>袁世凯称帝背景</h3><p>对内:国内文化传统,皇帝有天然的法统.法统的重要性体现在西藏的活佛,云南的吐司,蒙古的亲王.</p>
+<blockquote>
+<p>在袁世凯要称帝时,蒙古想要加入中国,等着分封亲王.当时天子皇帝是有很大的宗教意义的.<br>举例:拿破仑不跪教皇引起很大的风波.<br>对外:当时世界上强国,日本,俄国,英国,德国均是君主制.</p>
+</blockquote>
+<h2 id="改革开放"><a href="#改革开放" class="headerlink" title="改革开放"></a>改革开放</h2><p>改革开放是个双方的问题,(<code>例如朝鲜可想开放了</code>).</p>
+<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><p>开放需要三个协议</p>
+<ol>
+<li>和平协议</li>
+<li>建交协议</li>
+<li>友好协议</li>
+</ol>
+<p>对应1978年中美建交公报三原则.对于建交的完成,乒乓球外交功不可没.</p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>此时第二次石油危机,中国在价格高点卖了美国大量石油.</p>
+<h3 id="农贸市场"><a href="#农贸市场" class="headerlink" title="农贸市场"></a>农贸市场</h3><p>农贸市场里多产的粮食可以卖高价,意味着平均一下粮食价格提高.农民开始富有.<br>同时意味着粮食欠收的地方需求大量粮食,这个时候就需要从国外购买粮食平价,不然国内没办法展开农贸市场.</p>
+<h3 id="粮食增长原因"><a href="#粮食增长原因" class="headerlink" title="粮食增长原因"></a>粮食增长原因</h3><ol>
+<li>文革期间的四三项目化肥厂开始投产了.</li>
+<li>文革时期完成了基础水利建设,不然私有制征地修水利是不可能的.</li>
+</ol>
+<h3 id="改革和革命的区别"><a href="#改革和革命的区别" class="headerlink" title="改革和革命的区别"></a>改革和革命的区别</h3><ul>
+<li>改革<blockquote>
+<p>改革是让非法的利益合法化,例如中美建交外贸</p>
+</blockquote>
+</li>
+<li>革命<blockquote>
+<p>合法的利益非法化,如土改将地主合法的田地非法化.</p>
+</blockquote>
+</li>
+</ul>
+<p>回顾历史,谁敢搞运动就叫反动派,谁敢搞革命就叫反革命.实际上革命运动是否一定是坏的,改革是否一定是好的.</p>
+<h1 id="中美模式之争"><a href="#中美模式之争" class="headerlink" title="中美模式之争"></a>中美模式之争</h1><p>美国模式:<strong>城镇化</strong><br>日本模式:<strong>京津冀</strong></p>
+<h2 id="美国模式"><a href="#美国模式" class="headerlink" title="美国模式"></a>美国模式</h2><p>美国模式很难再中国走通,问题在于资源需求很难解决.集中供水,集中供暖,集中治污等等.<br>例如城镇污水处理,各种污水直接渗入地下水,现在经常洗澡,洗衣机等排放污水,对水的需求变大了,排放污水更多了,之前人口密度不集中,排放污水少,自净能力能支持,城镇化代表人口密度集中,且随着资源需求增大,自净能力很难解决污水问题.</p>
+<h2 id="广东用地的合法化"><a href="#广东用地的合法化" class="headerlink" title="广东用地的合法化"></a>广东用地的合法化</h2><p>例如东莞,东莞为什么成为黄基地,因为当地土地租金便宜,土地资金便宜的原因,因为在土改之前耕地全侵占了,建成了厂房宅基地等.现如今的农村集体建设用地就是当初侵占的耕地,这个改革就是上面说的,将之前非法侵占的土地合法化,其中有巨大的利益.</p>
+<h1 id="中国将来必然会有一次大通胀"><a href="#中国将来必然会有一次大通胀" class="headerlink" title="中国将来必然会有一次大通胀"></a>中国将来必然会有一次大通胀</h1><h2 id="为什么会通胀"><a href="#为什么会通胀" class="headerlink" title="为什么会通胀"></a>为什么会通胀</h2><ol>
+<li>与国际接轨,劳动力价格必须上涨.</li>
+<li>央行利率必须与世界接轨,不然会被套利.</li>
+<li>农村粮食价格需要与日韩接轨,不能让农村劳动力价格和城市劳动力价格二元化</li>
+</ol>
+<ul>
+<li>同样的状态可以参考西方价值革命.<blockquote>
+<p>例如:之前工作一个月和现在工作一个月的购买力差不多,但是工资差很多,但是和西方对比,以西方比例原来西方工作三天变成了工作半个月.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="闭关锁国"><a href="#闭关锁国" class="headerlink" title="闭关锁国"></a>闭关锁国</h2><p>闭关锁国并非单纯船坚炮利的原因,在明朝时期就海禁更大的原因是定价权的问题,印度的衰落也正是因为在丧失定价权在贵金属的固定汇率下,大量财富外流,最终衰落.</p>
+<blockquote>
+<p>例如:现如今中国工资和美国工资不考虑不考虑汇率大致相差不多,但是加上汇率美国无论是工资还是物价都比中国高得多.<br>且当时西方的利率特别低5%,但是国内30%以上,在没有定价权的情况下交易就是亏损.<br>当时去美国的淘金者回来都是首富,就是因为贵重金属定价权问题.(<code>一边黄金相对整体物价一般,一边黄金相对整体物价很高</code>)<br>西方黄金人均比东方高得多,最后导致的这一系列问题.</p>
+</blockquote>
+<h3 id="印度纺织业的没落"><a href="#印度纺织业的没落" class="headerlink" title="印度纺织业的没落"></a>印度纺织业的没落</h3><p>印度的纺织业较西方更先进,有纺织机,但是却从原材料被打垮了,西方有美洲奴隶,当棉花供应不上时,棉花的价格上涨,最终造成纺织业的利润全被棉花吃掉了.<br><strong>扩展知识:英国圈地运动</strong></p>
+<h1 id="消费问题"><a href="#消费问题" class="headerlink" title="消费问题"></a>消费问题</h1><p>例如常见的例子:中国老太太存在买房,和美国老太太贷款买房.<br>隐藏在背后的问题就是把明天的钱今天花了,存在的问题是,明天被消费的物质,不可能穿越过来,这就改变了供需平衡,造成货物的价格上涨,最终形成通胀.<br><strong>关键点</strong><br>谁能贷款,这是银行决定的,但是带来的通胀,却是所有人都要承受的.</p>
+<h1 id="金本位背后的故事"><a href="#金本位背后的故事" class="headerlink" title="金本位背后的故事"></a>金本位背后的故事</h1><p>美国在二战时拥有两万吨黄金,到布雷顿体系破灭之前,美联储只剩下八千吨黄金,这时候南非发现了个金矿,储量五万四千吨,挖出来三万七千吨.接着美国指责南非种族隔离,将南非从国际社会中隔离开来,在金本位破裂之后南非才重回国际大家庭.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/知识点/" rel="tag"># 知识点</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/11/国际金融对抗/" rel="next" title="国际金融对抗">
+                <i class="fa fa-chevron-left"></i> 国际金融对抗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="ErQi" />
+          <p class="site-author-name" itemprop="name">ErQi</p>
+          <p class="site-description motion-element" itemprop="description">一个有强迫症兼五月病,导致无药可救的家伙..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ErQi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#海权陆权之争"><span class="nav-number">1.</span> <span class="nav-text">海权陆权之争</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#海权"><span class="nav-number">1.1.</span> <span class="nav-text">海权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#陆权"><span class="nav-number">1.2.</span> <span class="nav-text">陆权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#人流"><span class="nav-number">1.2.1.</span> <span class="nav-text">人流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信息流"><span class="nav-number">1.2.2.</span> <span class="nav-text">信息流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#能源流"><span class="nav-number">1.2.3.</span> <span class="nav-text">能源流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绿色经济和信息经济之争"><span class="nav-number">1.3.</span> <span class="nav-text">绿色经济和信息经济之争</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绿色经济"><span class="nav-number">1.4.</span> <span class="nav-text">绿色经济</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信息经济"><span class="nav-number">1.5.</span> <span class="nav-text">信息经济</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#中国崛起的原因"><span class="nav-number">1.5.1.</span> <span class="nav-text">中国崛起的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#拓展管理效益与世界兴衰"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">拓展管理效益与世界兴衰</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#制造国-资源国-金融国之争"><span class="nav-number">2.</span> <span class="nav-text">制造国,资源国,金融国之争</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#制造国"><span class="nav-number">2.1.</span> <span class="nav-text">制造国</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源国"><span class="nav-number">2.2.</span> <span class="nav-text">资源国</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#金融国"><span class="nav-number">2.3.</span> <span class="nav-text">金融国</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#印钞权和征税权之争"><span class="nav-number">3.</span> <span class="nav-text">印钞权和征税权之争</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#征税权"><span class="nav-number">3.1.</span> <span class="nav-text">征税权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDP和GNP"><span class="nav-number">3.1.1.</span> <span class="nav-text">GDP和GNP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GDP"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">GDP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GNP"><span class="nav-number">3.1.1.2.</span> <span class="nav-text">GNP</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#社保体系的压力"><span class="nav-number">4.</span> <span class="nav-text">社保体系的压力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中国的现状"><span class="nav-number">5.</span> <span class="nav-text">中国的现状</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#十八大的中央集权"><span class="nav-number">5.1.</span> <span class="nav-text">十八大的中央集权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三省六部制的出现"><span class="nav-number">5.2.</span> <span class="nav-text">三省六部制的出现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#军权不是核心"><span class="nav-number">5.3.</span> <span class="nav-text">军权不是核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枉法和贪污问题"><span class="nav-number">5.4.</span> <span class="nav-text">枉法和贪污问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#枉法惩治程度不够"><span class="nav-number">5.4.1.</span> <span class="nav-text">枉法惩治程度不够</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枉法和贪污关系"><span class="nav-number">5.4.2.</span> <span class="nav-text">枉法和贪污关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#政权的认识"><span class="nav-number">6.</span> <span class="nav-text">政权的认识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#国家的本质是什么"><span class="nav-number">6.1.</span> <span class="nav-text">国家的本质是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是国家"><span class="nav-number">6.1.1.</span> <span class="nav-text">什么是国家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展台湾问题的复杂性"><span class="nav-number">6.1.2.</span> <span class="nav-text">拓展台湾问题的复杂性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多党制的黑暗"><span class="nav-number">6.2.</span> <span class="nav-text">多党制的黑暗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#治国与权术"><span class="nav-number">6.3.</span> <span class="nav-text">治国与权术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#贪官治国为何不可行"><span class="nav-number">6.3.1.</span> <span class="nav-text">贪官治国为何不可行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#美国的建国史"><span class="nav-number">6.4.</span> <span class="nav-text">美国的建国史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#朝鲜的问题"><span class="nav-number">6.5.</span> <span class="nav-text">朝鲜的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枪杆子里出政权"><span class="nav-number">6.6.</span> <span class="nav-text">枪杆子里出政权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#得名心者得天下"><span class="nav-number">6.7.</span> <span class="nav-text">得名心者得天下</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#华夷之辩"><span class="nav-number">6.7.1.</span> <span class="nav-text">华夷之辩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#袁世凯称帝背景"><span class="nav-number">6.7.2.</span> <span class="nav-text">袁世凯称帝背景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改革开放"><span class="nav-number">6.8.</span> <span class="nav-text">改革开放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">6.8.1.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">6.8.2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#农贸市场"><span class="nav-number">6.8.3.</span> <span class="nav-text">农贸市场</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#粮食增长原因"><span class="nav-number">6.8.4.</span> <span class="nav-text">粮食增长原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改革和革命的区别"><span class="nav-number">6.8.5.</span> <span class="nav-text">改革和革命的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中美模式之争"><span class="nav-number">7.</span> <span class="nav-text">中美模式之争</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#美国模式"><span class="nav-number">7.1.</span> <span class="nav-text">美国模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广东用地的合法化"><span class="nav-number">7.2.</span> <span class="nav-text">广东用地的合法化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中国将来必然会有一次大通胀"><span class="nav-number">8.</span> <span class="nav-text">中国将来必然会有一次大通胀</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么会通胀"><span class="nav-number">8.1.</span> <span class="nav-text">为什么会通胀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭关锁国"><span class="nav-number">8.2.</span> <span class="nav-text">闭关锁国</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#印度纺织业的没落"><span class="nav-number">8.2.1.</span> <span class="nav-text">印度纺织业的没落</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#消费问题"><span class="nav-number">9.</span> <span class="nav-text">消费问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#金本位背后的故事"><span class="nav-number">10.</span> <span class="nav-text">金本位背后的故事</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ErQi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
