@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="知识点," />
+  <meta name="keywords" content="知识点,笔记," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="一点一滴的记录RxJava的各种指示点细节,前期汇总,后期细分.因为我现在也不知道目录要怎么划分.">
+<meta name="description" content="Http缓存的原理,及其常规应用方式.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rxjava中的一些知识点记录">
-<meta property="og:url" content="http://yoursite.com/2016/12/20/Rxjava笔记/index.html">
+<meta property="og:title" content="Http缓存">
+<meta property="og:url" content="http://yoursite.com/2017/02/21/http缓存机制/index.html">
 <meta property="og:site_name" content="ErQi">
-<meta property="og:description" content="一点一滴的记录RxJava的各种指示点细节,前期汇总,后期细分.因为我现在也不知道目录要怎么划分.">
-<meta property="og:updated_time" content="2016-12-20T06:55:46.621Z">
+<meta property="og:description" content="Http缓存的原理,及其常规应用方式.">
+<meta property="og:updated_time" content="2017-02-21T11:09:25.173Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rxjava中的一些知识点记录">
-<meta name="twitter:description" content="一点一滴的记录RxJava的各种指示点细节,前期汇总,后期细分.因为我现在也不知道目录要怎么划分.">
+<meta name="twitter:title" content="Http缓存">
+<meta name="twitter:description" content="Http缓存的原理,及其常规应用方式.">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/20/Rxjava笔记/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/21/http缓存机制/"/>
 
 
 
 
 
-  <title> Rxjava中的一些知识点记录 | ErQi </title>
+  <title> Http缓存 | ErQi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +258,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/20/Rxjava笔记/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/http缓存机制/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ErQi">
@@ -282,7 +282,7 @@
             
             
               
-                Rxjava中的一些知识点记录
+                Http缓存
               
             
           </h1>
@@ -295,8 +295,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-20T11:09:52+08:00">
-                2016-12-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-21T12:32:43+08:00">
+                2017-02-21
               </time>
             
 
@@ -314,8 +314,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Rxjava/" itemprop="url" rel="index">
-                    <span itemprop="name">Rxjava</span>
+                  <a href="/categories/Http/" itemprop="url" rel="index">
+                    <span itemprop="name">Http</span>
                   </a>
                 </span>
 
@@ -349,9 +349,85 @@
       
 
       
-        <p>一点一滴的记录RxJava的各种指示点细节,前期汇总,后期细分.<br>因为我现在也不知道目录要怎么划分.<br><a id="more"></a></p>
-<h3 id="CompositeSubscription的使用"><a href="#CompositeSubscription的使用" class="headerlink" title="CompositeSubscription的使用"></a>CompositeSubscription的使用</h3><p>在Rxjava的使用过程中,会出现潜在的内存泄漏问题,即在Activity被销毁之后,Rxjava还处于调用流程中未终止的情况,通常情况下(<code>无特别耗时操作</code>)可以说无伤大雅,但是始终是存在了内存泄漏.这时候CompositeSubscription就可以出场了.<br>CompositeSubscription是一个Subscriptions的管理类,通过<code>add()</code>方法添加Subscriptions进行统一管理,这样RxJava内存泄漏就很好处理了,在Activity的<code>onDestroy()</code>方法中调用<code>CompositeSubscription.unsubscribe()</code>即可取消它所管理的所有订阅.</p>
-<h4 id="值得注意的"><a href="#值得注意的" class="headerlink" title="值得注意的"></a>值得注意的</h4><p>一旦调用了<code>unsubscribe()</code>方法之后,该CompositeSubscription对象就不可用了,若想继续使用,就需要创建一个新的对象了.</p>
+        <p>Http缓存的原理,及其常规应用方式.<br><a id="more"></a></p>
+<p><a href="http://mp.weixin.qq.com/s/qOMO0LIdA47j3RjhbCWUEQ" target="_blank" rel="external">参考文章Http缓存</a></p>
+<h1 id="Http缓存概念"><a href="#Http缓存概念" class="headerlink" title="Http缓存概念"></a>Http缓存概念</h1><p>http缓存是指:当Web请求抵达时,如果本地有”已缓存副本”,就可以直接读取本地缓存副本,而不是从服务器中再次提取.</p>
+<h1 id="Http缓存的好处"><a href="#Http缓存的好处" class="headerlink" title="Http缓存的好处"></a>Http缓存的好处</h1><ol>
+<li>减少了冗余数据的传输,节省了用户网络流量的使用.</li>
+<li>减少了服务器的负担,变相提升了网站性能.</li>
+<li>提升了加载速度.</li>
+</ol>
+<h1 id="Http缓存的原理"><a href="#Http缓存的原理" class="headerlink" title="Http缓存的原理"></a>Http缓存的原理</h1><p>HTTP报文就是浏览器和服务器间通信时发送及响应的数据块。<br>浏览器向服务器请求数据，发送请求(request)报文；服务器向浏览器返回数据，返回响应(response)报文。<br>报文信息主要分为两部分</p>
+<ol>
+<li>包含属性的首部(header)————————–附加信息（cookie，缓存信息等）与缓存相关的规则信息，均包含在header中.</li>
+<li>包含数据的主体部分(body)———————–HTTP请求真正想要传输的部分</li>
+</ol>
+<p>Http缓存主要就是依靠报文首部(header)来实现的.</p>
+<p>Http缓存体系大致可分为三类.<br><img src="" alt="图片缺省"></p>
+<h2 id="缓存储存策略"><a href="#缓存储存策略" class="headerlink" title="缓存储存策略"></a>缓存储存策略</h2><p><strong>决定Http相应内容是否可以缓存到客户端.</strong><br>由响应报文的首部(header)中的<strong>Cache-Control</strong>来决定请求的缓存策略.<br>Cache-Control常见返回值及对应策略如下图.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">返回类型</th>
+<th style="text-align:center">缓存策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">public</td>
+<td style="text-align:center">所有内容都将被缓存(客户端和代理服务器都可缓存)</td>
+</tr>
+<tr>
+<td style="text-align:center">private</td>
+<td style="text-align:center">内容只缓存到私有缓存中(仅客户端可以缓存,代理服务器不可缓存)</td>
+</tr>
+<tr>
+<td style="text-align:center">no-cache</td>
+<td style="text-align:center">需要与服务器确认响应报文是否有变更,可理解为不建议缓存,但是任会进行缓存</td>
+</tr>
+<tr>
+<td style="text-align:center">no-store</td>
+<td style="text-align:center">不会进行任何缓存</td>
+</tr>
+<tr>
+<td style="text-align:center">must-revalidation/proxy-revalidation</td>
+<td style="text-align:center">如果缓存内容失效,必须重新与服务器/代理以进行验证</td>
+</tr>
+<tr>
+<td style="text-align:center">max-age=xxx (xxx is numeric)</td>
+<td style="text-align:center">缓存内容将在XXX秒后失效,只在Http1.1可用,并如果和Last-Modified一起使用时,优先级更高.</td>
+</tr>
+</tbody>
+</table>
+<p>上述返回类型中的Public,Private,no-cache,max-age,都会将数据缓存到本地,但并不表示下次请求就可以直接读取使用.需要判断是否过期才行.</p>
+<h2 id="缓存过期策略"><a href="#缓存过期策略" class="headerlink" title="缓存过期策略"></a>缓存过期策略</h2><p><strong>决定客户端是否可以直接从本地缓存中加载数据并展示</strong><br>由响应报文中首部的Expires来决定,Expires指定了缓存数据有效的绝对时间,在此时间之内缓存数据有效,可以直接加载缓存数据.</p>
+<p><strong>注意事项</strong></p>
+<ol>
+<li>Cache-Control中指定的缓存过期策略优先级高于Expires,当它们同时存在时,后者会被覆盖掉.</li>
+<li>缓存数据被标记已过期并不等于缓存数据无效,需要再次请求判断数据是否有效.</li>
+</ol>
+<h2 id="缓存对比策略"><a href="#缓存对比策略" class="headerlink" title="缓存对比策略"></a>缓存对比策略</h2><p><strong>决定客户端的缓存时候是否仍然有效,决定是否重发数据</strong><br>客户端判断数据过期,或者游览器刷新之后,会重发一个请求到服务器,服务器此时并不急于返回数据,而是看请求头有没有带标识(If-Modified-Since、If-None-Match)过来,如果判断标识仍然有效,则返回304告诉客户端本地缓存仍然有效(需注意,必须在首次响应时输出响应的头信息(Last-Modified,ETags)到客户端,客户端才能在缓存过期时,数据返回给服务器进行对比),直接加载缓存即可.</p>
+<h2 id="拓展-Http缓存1-0-vs-1-1"><a href="#拓展-Http缓存1-0-vs-1-1" class="headerlink" title="拓展:Http缓存1.0 vs 1.1"></a>拓展:Http缓存1.0 vs 1.1</h2><p><strong>Http/1.0</strong></p>
+<p>相关字段：</p>
+<ul>
+<li>Date: 服务器响应的时间</li>
+<li>Expires: 资源过期时间</li>
+<li>Last-Modified: 资源最后修改时间</li>
+<li>If-Modified-Since: 用来验证资源是否过期</li>
+</ul>
+<p>策略：<br>如果Expires设置的时间在Date之后，则浏览器在Expires标记的时间之前都不会访问服务器了，而是使用浏览器缓存.<br>如果Expires设置的时间在Date之前，或者浏览器时间已经在Expires之后，那么再次访问图片时， 浏览器就要向服务器发送请求，但不是重新拉取数据，而是询问服务器该资源是否过期，方法时，把上次response中Last-Modified的时间作为If-Modified-Since的时间，发送请求，服务器对比该时间和资源目前的更改时间，如果未更改，则返回304，否则传输新文件</p>
+<p><strong>Http/1.1</strong><br>Http/1.0缓存机制完全依赖时间，弊端显而易见，服务器、客户端的时钟不同步，文档的 更新周期小于1s, 都会出现问题。</p>
+<p>所以Http/1.1提倡的缓存机制是，对比文档的hash值，文档内容变，则hash变，用相对时间代替绝对时间</p>
+<p>Http/1.1 继承 Http/1.0 所以Http/1.0的相关字段仍然有效，保留的这些字段就是为了兼容那些仅支持Http/1.0的客户端。 Http/1.1服务器不应该设置与1.0矛盾的过期策略, 1.1的服务器在没有文档hash值时，也可以使用If-Modified-Since进行判断文档过期。</p>
+<p>新增字段：</p>
+<ul>
+<li>Cache-Control: 用来控制浏览器的缓存行为</li>
+<li>ETag: 文档的Hash值</li>
+<li>If-None-Match: 用来验证资源是否过期，即文档Hash值是否变化</li>
+</ul>
+<h1 id="Android中Http缓存的使用"><a href="#Android中Http缓存的使用" class="headerlink" title="Android中Http缓存的使用"></a>Android中Http缓存的使用</h1><p>这里以Okhttp为例.<br>需要注意的是,Okhttp只对Get请求进行缓存,并不会对Post请求缓存,因为Post请求多是数据交互,没有多少缓存的意义.</p>
+<p>在Okhttp中已经实现了缓存策略,我们只需要使用即可.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">OkHttpClient okHttpClient = new OkHttpClient();</div><div class="line">OkHttpClient newClient = okHttpClient.newBuilder()</div><div class="line">        .cache(new Cache(getCacheDir(), 1024 * 1024 * 10))</div><div class="line">        .build();</div></pre></td></tr></table></figure></p>
+<p>很简单,设置好缓存目录,缓存文件大小即可配合服务器做好缓存处理.</p>
 
       
     </div>
@@ -377,6 +453,8 @@
           
             <a href="/tags/知识点/" rel="tag"># 知识点</a>
           
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
         </div>
       
 
@@ -384,8 +462,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/20/MVP模式实际使用/" rel="next" title="MVP模式实战">
-                <i class="fa fa-chevron-left"></i> MVP模式实战
+              <a href="/2017/01/13/社会主义优越性/" rel="next" title="张捷-社会主义优越性">
+                <i class="fa fa-chevron-left"></i> 张捷-社会主义优越性
               </a>
             
           </div>
@@ -393,10 +471,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/31/2016/" rel="prev" title="逝去的2016">
-                逝去的2016 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -550,7 +624,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CompositeSubscription的使用"><span class="nav-number">1.</span> <span class="nav-text">CompositeSubscription的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#值得注意的"><span class="nav-number">1.1.</span> <span class="nav-text">值得注意的</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Http缓存概念"><span class="nav-number">1.</span> <span class="nav-text">Http缓存概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Http缓存的好处"><span class="nav-number">2.</span> <span class="nav-text">Http缓存的好处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Http缓存的原理"><span class="nav-number">3.</span> <span class="nav-text">Http缓存的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存储存策略"><span class="nav-number">3.1.</span> <span class="nav-text">缓存储存策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存过期策略"><span class="nav-number">3.2.</span> <span class="nav-text">缓存过期策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存对比策略"><span class="nav-number">3.3.</span> <span class="nav-text">缓存对比策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展-Http缓存1-0-vs-1-1"><span class="nav-number">3.4.</span> <span class="nav-text">拓展:Http缓存1.0 vs 1.1</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android中Http缓存的使用"><span class="nav-number">4.</span> <span class="nav-text">Android中Http缓存的使用</span></a></li></ol></div>
             
 
           </div>
