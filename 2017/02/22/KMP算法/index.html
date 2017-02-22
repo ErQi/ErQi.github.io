@@ -1,0 +1,738 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="KMP算法的自我理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KMP算法详解">
+<meta property="og:url" content="http://yoursite.com/2017/02/22/KMP算法/index.html">
+<meta property="og:site_name" content="ErQi">
+<meta property="og:description" content="KMP算法的自我理解">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/6.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/匹配值.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/3.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/4.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/kmp/5.png">
+<meta property="og:updated_time" content="2017-02-22T14:37:25.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KMP算法详解">
+<meta name="twitter:description" content="KMP算法的自我理解">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/kmp/6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/22/KMP算法/"/>
+
+
+
+
+
+  <title> KMP算法详解 | ErQi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ErQi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/KMP算法/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ErQi">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/default_avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ErQi">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ErQi" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                KMP算法详解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T10:32:17+08:00">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/基础/" itemprop="url" rel="index">
+                    <span itemprop="name">基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>KMP算法的自我理解<br><a id="more"></a></p>
+<h1 id="KMP的由来"><a href="#KMP的由来" class="headerlink" title="KMP的由来"></a>KMP的由来</h1><p>在KMP算法之前,对文本进行匹配时使用的是朴素模式匹配算法,也就是最简单匹配算法.<br>当然运行效率也是让人深恶痛绝,举个例子:</p>
+<blockquote>
+<p>现有长度为n的模式串00001,和长度为m的文本串0000000000000000000000000000000001.<br>按照朴素匹配算法最终时间复杂度为o{(m-n+1)*n}</p>
+</blockquote>
+<p>这种有多个0和1重复字符的字符串,匹配模式却仍需要挨个遍历,这是十分糟糕的,所以最终KMP算法诞生了.</p>
+<h1 id="KMP和朴素算法的核心差别"><a href="#KMP和朴素算法的核心差别" class="headerlink" title="KMP和朴素算法的核心差别"></a>KMP和朴素算法的核心差别</h1><p>朴素算法在匹配时,子串和对比的目标串都会不断的进行回溯对比,而KMP会先计算出子串的匹配数组,在进行匹配时目标串并不会进行回溯,且子串回溯时会根据计算出的重复数组省略很多不必要的回溯.<br>下面就用例子进行讲解.</p>
+<h1 id="KMP的回溯原理"><a href="#KMP的回溯原理" class="headerlink" title="KMP的回溯原理"></a>KMP的回溯原理</h1><p><a href="http://kb.cnblogs.com/page/176818/" target="_blank" rel="external">引用阮一峰:字符串匹配的KMP算法</a></p>
+<p>以下图两字符串匹配为例:</p>
+<p><img src="../../../../images/kmp/6.png" alt="未编译"></p>
+<p>KMP核心是找出要匹配的子串的匹配值数组,如下图给出的子串和匹配值.</p>
+<p><img src="../../../../images/kmp/匹配值.png" alt="未编译"></p>
+<blockquote>
+<p>“子串匹配值”就是”前缀”和”后缀”的最长的共有元素的长度。以”ABCDABD”为例，<br>“A”的前缀和后缀都为空集，共有元素的长度为0；<br>“AB”的前缀为[A]，后缀为[B]，共有元素的长度为0；<br>“ABC”的前缀为[A, AB]，后缀为[BC, C]，共有元素的长度0；<br>“ABCD”的前缀为[A, AB, ABC]，后缀为[BCD, CD, D]，共有元素的长度为0；<br>“ABCDA”的前缀为[A, AB, ABC, ABCD]，后缀为[BCDA, CDA, DA, A]，共有元素为”A”，长度为1；<br>“ABCDAB”的前缀为[A, AB, ABC, ABCD, ABCDA]，后缀为[BCDAB, CDAB, DAB, AB, B]，共有元素为”AB”，长度为2；<br>“ABCDABD”的前缀为[A, AB, ABC, ABCD, ABCDA, ABCDAB]，后缀为[BCDABD, CDABD, DABD, ABD, BD, D]，共有元素的长度为0。</p>
+</blockquote>
+<p>跳过前面一端不匹配的,我们直接来到匹配串生效的位置</p>
+<p><img src="../../../../images/kmp/1.png" alt="未编译"></p>
+<p>已知空格与D不匹配时，前面六个字符”ABCDAB”是匹配的。查表可知，最后一个匹配字符B对应的”部分匹配值”为2，因此按照下面的公式算出向后移动的位数：</p>
+<blockquote>
+<p><strong>移动位数 = 已匹配的字符数 - 对应的部分匹配值</strong></p>
+</blockquote>
+<p>因为 6 - 2 等于4，所以将搜索词向后移动4位。</p>
+<p><img src="../../../../images/kmp/2.png" alt="未编译"></p>
+<p>因为空格与Ｃ不匹配，搜索词还要继续往后移。这时，已匹配的字符数为2（”AB”），对应的”部分匹配值”为0。所以，移动位数 = 2 - 0，结果为 2，于是将搜索词向后移2位。</p>
+<p><img src="../../../../images/kmp/3.png" alt="未编译"></p>
+<p>因为空格与A不匹配，继续后移一位。</p>
+<p><img src="../../../../images/kmp/4.png" alt="未编译"></p>
+<p>逐位比较，直到发现C与D不匹配。于是，移动位数 = 6 - 2，继续将搜索词向后移动4位。</p>
+<p><img src="../../../../images/kmp/5.png" alt="未编译"></p>
+<p>逐位比较，直到搜索词的最后一位，发现完全匹配，于是搜索完成。如果还要继续搜索（即找出全部匹配），移动位数 = 7 - 0，再将搜索词向后移动7位，这里就不再重复了。</p>
+<p>这么一看KMP是不是比朴素算法匹配次数少了很多?例子中也看出了KMP核心在于匹配数组,那如何通过代码求出匹配数组呢?</p>
+<h1 id="KMP核心匹配串数组"><a href="#KMP核心匹配串数组" class="headerlink" title="KMP核心匹配串数组"></a>KMP核心匹配串数组</h1><p>下面是Java的伪代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public int[] get_next(char[] str) &#123;</div><div class="line">    int i = 1;</div><div class="line">    int j = 0;</div><div class="line">    int[] next = new int[str.length];</div><div class="line">    next[0] = 0;</div><div class="line">    while (i &lt; str.length) &#123;</div><div class="line">        if (str[i]==(str[j])) &#123; // 匹配记录下当前匹配的位置</div><div class="line">            ++j;</div><div class="line">            next[i] = j;  // 为了配合例子更便于理解,所以在++i之前便给匹配数组进行了赋值</div><div class="line">            ++i;</div><div class="line">        &#125; else if (j == 0) &#123;  // 完全不匹配,跳至下一个字符</div><div class="line">            next[i] = j;  // 同上理由</div><div class="line">            ++j;</div><div class="line">            ++i;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = next[j - 1];  // 回溯至合适的位置</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return next;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码中<strong>j = next[j - 1];</strong>是很多人懵逼的地方,当然常规模式是<strong>j = next[j];</strong>.我这里配合例子进行了改写.<br><strong>为什么不是递减回溯,而是直接跳至数组中的匹配值</strong>,尽管从结果中可以看出这样确实是高效的方式,但是为什么正好就是最合适呢?知其然不知其所以然.</p>
+<p>下面按照上面思路来实现KMP算法就能知其所以然了.</p>
+<h1 id="KMP算法具体实现"><a href="#KMP算法具体实现" class="headerlink" title="KMP算法具体实现"></a>KMP算法具体实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">// 求字符串t,在字符串s中的pos位之后首次出现的位置</div><div class="line">   public static int index_KMP(char[] s, char[] t, int pos) &#123;</div><div class="line">       int i = pos;</div><div class="line">       int j = 0;</div><div class="line">       int[] next = get_next(t);</div><div class="line">       while (i &lt; s.length &amp;&amp; j &lt; t.length) &#123;</div><div class="line">           if (s[i] == t[j]) &#123;</div><div class="line">               i++;</div><div class="line">               j++;</div><div class="line">           &#125; else if (j == 0) &#123;</div><div class="line">               i++;</div><div class="line">           &#125; else &#123;</div><div class="line">               // j的回溯位置可以根据上面例子中的公式来套.</div><div class="line">               // 移动位数 = 已匹配的字符数 - 对应的部分匹配值;</div><div class="line">               // 已匹配的字符数为: j;</div><div class="line">               // 对应部分匹配值为: next[j - 1];</div><div class="line">               // 移动位数为: j - (next[j - 1]);</div><div class="line">               // 新的索引 = 旧索引 - 移动位数;</div><div class="line">               // j = j - (j - (next[j - 1]));</div><div class="line">               j = next[j - 1];</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       if (j == t.length) &#123;</div><div class="line">           return i - t.length;</div><div class="line">       &#125;</div><div class="line">       return 0;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>从这里就可以看出为什么回溯的位置是<strong>j = next[j - 1]</strong>,在于常规的对应一下,常规的kmp算法数组第零位通常是固定为0,第一位固定为1,第二位才是第一位和第二位是否重复产生的重复值.<br>而例子中为了便于理解,第零位固定为0,第一位就表示第二位和第一位是否重复的值,把整体数组前移了一位,那么我们去掉这前移的一位最终回溯部分也就是<strong>j = next[j]</strong>了.</p>
+<p>便于理解,在求自身匹配数组时,也可以将不断变换的尾串看做成子串,这样就是子串和目标串进行匹配,就可以套用上面的公式得出<strong>j = next[j]</strong>,只不过尾串一直在变化而已.</p>
+<p>在改进KMP算法时,需先将算法恢复到正常模式(想了半天不知道在改进模式的情况下如何继续推导了…)<br>常规的KMP匹配数组获取代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// 由于数组的角标是从0开始的,所以的出来的结果和书上所说的统统小一.</div><div class="line">public static int[] get_next(char[] str) &#123;</div><div class="line">    int i = 0;</div><div class="line">    int j = -1;</div><div class="line">    int[] nextval = new int[str.length];</div><div class="line">    nextval[0] = -1;</div><div class="line">    while (i &lt; str.length - 1) &#123;</div><div class="line">        if (j == -1 || str[i] == (str[j])) &#123;   // 匹配记录下当前匹配的位置</div><div class="line">            ++j;</div><div class="line">            ++i;</div><div class="line">            nextval[i] = j;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = nextval[j];  // 回溯至合适的位置</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return nextval;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>常规模式KMP匹配代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public static int index_KMP(char[] s, char[] t, int pos) &#123;</div><div class="line">    int i = pos;</div><div class="line">    int j = 0;</div><div class="line">    int[] next = get_next(t);</div><div class="line">    while (i &lt; s.length &amp;&amp; j &lt; t.length) &#123;</div><div class="line">        if (j == 0 || s[i] == t[j]) &#123;</div><div class="line">            i++;</div><div class="line">            j++;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = next[j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (j == t.length) &#123;</div><div class="line">        return i - t.length;</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="KMP算法的改进"><a href="#KMP算法的改进" class="headerlink" title="KMP算法的改进"></a>KMP算法的改进</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public static int[] get_nextval(char[] str) &#123;</div><div class="line">    int i = 0;</div><div class="line">    int j = -1;</div><div class="line">    int[] nextval = new int[str.length];</div><div class="line">    nextval[0] = -1;</div><div class="line">    while (i &lt; str.length - 1) &#123;</div><div class="line">        if (j == -1 || str[i] == (str[j])) &#123;   // 匹配记录下当前匹配的位置</div><div class="line">            ++j;</div><div class="line">            ++i;</div><div class="line">            nextval[i] = j;</div><div class="line">            if (str[i] != str[j]) &#123;</div><div class="line">                nextval[i] = j;</div><div class="line">            &#125; else &#123;</div><div class="line">                nextval[i] = nextval[j];</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            j = nextval[j];  // 回溯至合适的位置</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return nextval;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在原来调用get_next的位置,修改为get_nextval即可.具体原理明日再战.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/21/http缓存机制/" rel="next" title="Http缓存">
+                <i class="fa fa-chevron-left"></i> Http缓存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/default_avatar.jpg"
+               alt="ErQi" />
+          <p class="site-author-name" itemprop="name">ErQi</p>
+          <p class="site-description motion-element" itemprop="description">最难做到的也就是简单而已...</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ErQi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP的由来"><span class="nav-number">1.</span> <span class="nav-text">KMP的由来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP和朴素算法的核心差别"><span class="nav-number">2.</span> <span class="nav-text">KMP和朴素算法的核心差别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP的回溯原理"><span class="nav-number">3.</span> <span class="nav-text">KMP的回溯原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP核心匹配串数组"><span class="nav-number">4.</span> <span class="nav-text">KMP核心匹配串数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP算法具体实现"><span class="nav-number">5.</span> <span class="nav-text">KMP算法具体实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KMP算法的改进"><span class="nav-number">6.</span> <span class="nav-text">KMP算法的改进</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ErQi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
