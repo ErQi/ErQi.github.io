@@ -90,7 +90,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/02/28/线索二叉树/index.html">
 <meta property="og:site_name" content="ErQi">
 <meta property="og:description" content="线索二叉树">
-<meta property="og:updated_time" content="2017-03-01T12:19:22.047Z">
+<meta property="og:updated_time" content="2017-03-01T14:09:39.374Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线索二叉树">
 <meta name="twitter:description" content="线索二叉树">
@@ -364,6 +364,8 @@
 <p>中序线索二叉树的遍历概括就是先找到左子树的最终结点,然后不停找后继,没有后继了就用右子树,然后从头再来,找这右子树的左子树最终结点,然后后继..<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">// 中序遍历</div><div class="line">public void inOrderTraverse_Thr(BinThrNode tree) &#123;</div><div class="line">    if (null == tree) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    while (null != tree.lchild &amp;&amp; !tree.ltag) &#123; // 先找到左子树的最终结点</div><div class="line">        tree = tree.lchild;</div><div class="line">    &#125;</div><div class="line">    while (null != tree) &#123;</div><div class="line">        System.err.print(tree.data);</div><div class="line">        if (tree.rtag) &#123; // 有后继直接指向后继</div><div class="line">            tree = tree.rchild;</div><div class="line">        &#125; else &#123;</div><div class="line">            tree = tree.rchild; // 非后继就是右子树,顺着右子树往下找其左子树</div><div class="line">            if (null != tree) &#123; // 避免是右子树的最终结点,没有右子树</div><div class="line">                while (!tree.ltag) &#123; // 找到右子树下左子树的最终结点</div><div class="line">                    tree = tree.lchild;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="后序线索二叉树的遍历"><a href="#后序线索二叉树的遍历" class="headerlink" title="后序线索二叉树的遍历"></a>后序线索二叉树的遍历</h3><p>二叉树的后序线索化之后生成的线索并不构成一个完整的链表,更像糖葫芦一样中间形成了一串串,以二叉树分支作为梗串联在一块….强行加入其它中立结点或其他进行遍历感觉本末倒置,所以略过..<br>二叉树的后序线索化:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">BinThrNode pre; // 全局变量,标记上一个结点</div><div class="line"></div><div class="line">// 后序二叉树线索化</div><div class="line">void postThreading(BinThrNode tree) &#123;</div><div class="line">    if (null == tree) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    postThreading(tree.lchild);</div><div class="line">    postThreading(tree.rchild);</div><div class="line">    if (null == tree.lchild) &#123; // 当前节点没有左子树,替换为前驱</div><div class="line">        tree.ltag = true; // 修改标记</div><div class="line">        tree.lchild = pre; // 替换前驱</div><div class="line">    &#125;</div><div class="line">    if (null != pre &amp;&amp; null == pre.rchild) &#123; // 上一节点没有右子树</div><div class="line">        pre.rtag = true; // 修改标记</div><div class="line">        pre.rchild = tree; // 替换后继</div><div class="line">    &#125;</div><div class="line">    pre = tree; // 更新指针</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>内容参考大话数据结构</strong></p>
+
       
     </div>
 
@@ -406,6 +408,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/01/树,森林,二叉树的转换/" rel="prev" title="二叉树的各种转换">
+                二叉树的各种转换 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -496,7 +502,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

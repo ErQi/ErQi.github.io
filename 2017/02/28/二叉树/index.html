@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://yoursite.com/../../../../images/二叉树/中序遍历.png">
 <meta property="og:image" content="http://yoursite.com/../../../../images/二叉树/后序遍历.png">
 <meta property="og:image" content="http://yoursite.com/../../../../images/二叉树/层序遍历.png">
-<meta property="og:updated_time" content="2017-03-01T12:16:57.785Z">
+<meta property="og:updated_time" content="2017-03-01T14:09:28.813Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="二叉树">
 <meta name="twitter:description" content="二叉树">
@@ -394,6 +394,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public void floorOrderTraverse(BiTree tree) &#123;</div><div class="line">    if (null == tree) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    Queue&lt;BiTree&gt; queue = new LinkedList&lt;&gt;();</div><div class="line">    queue.add(tree);</div><div class="line">    while (!queue.isEmpty()) &#123;</div><div class="line">        BiTree temp = queue.poll();</div><div class="line">        System.out.print(temp.data);</div><div class="line">        if (null != temp.lchild) queue.add(temp.lchild);</div><div class="line">        if (null != temp.rchild) queue.add(temp.rchild);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>二叉树本身就是一个链表,这里遍历时却使用了另一层链表来记录其顺序实在不可取,但是想不出不使用其他对象来完成层序遍历的方式,故这里使用了队列来进行遍历.</p>
 <h3 id="二叉树遍历结果推导"><a href="#二叉树遍历结果推导" class="headerlink" title="二叉树遍历结果推导"></a>二叉树遍历结果推导</h3><p>在只知道前序和后序遍历结果时,无法推导出正确的二叉树.想要推导出正确的二叉树,中序遍历结果必不可少.</p>
+<p><strong>内容引自大话数据结构</strong></p>
 
       
     </div>
@@ -531,7 +532,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
